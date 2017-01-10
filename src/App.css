@@ -1,3 +1,4 @@
+.fc-player a,.fc-player abbr,.fc-player acronym,.fc-player address,.fc-player applet,.fc-player article,.fc-player aside,.fc-player audio,.fc-player b,.fc-player big,.fc-player blockquote,.fc-player body,.fc-player canvas,.fc-player caption,.fc-player center,.fc-player cite,.fc-player code,.fc-player dd,.fc-player del,.fc-player details,.fc-player dfn,.fc-player div,.fc-player dl,.fc-player dt,.fc-player em,.fc-player embed,.fc-player fieldset,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player form,.fc-player h1,.fc-player h2,.fc-player h3,.fc-player h4,.fc-player h5,.fc-player h6,.fc-player header,.fc-player hgroup,.fc-player html,.fc-player iframe,.fc-player img,.fc-player ins,.fc-player kbd,.fc-player label,.fc-player legend,.fc-player li,.fc-player mark,.fc-player menu,.fc-player nav,.fc-player object,.fc-player ol,.fc-player output,.fc-player p,.fc-player pre,.fc-player q,.fc-player ruby,.fc-player s,.fc-player samp,.fc-player section,.fc-player small,.fc-player span,.fc-player strike,.fc-player strong,.fc-player sub,.fc-player summary,.fc-player sup,.fc-player table,.fc-player tbody,.fc-player td,.fc-player tfoot,.fc-player th,.fc-player thead,.fc-player time,.fc-player tr,.fc-player tt,.fc-player u,.fc-player ul,.fc-player var,.fc-player video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}.fc-player article,.fc-player aside,.fc-player details,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player header,.fc-player hgroup,.fc-player menu,.fc-player nav,.fc-player section{display:block}.fc-player body{line-height:1}.fc-player ol,.fc-player ul{list-style:none}.fc-player blockquote,.fc-player q{quotes:none}.fc-player blockquote:after,.fc-player blockquote:before,.fc-player q:after,.fc-player q:before{content:'';content:none}.fc-player table{border-collapse:collapse;border-spacing:0}
 .feedcast-player{
   background-color: #132538 !important;
   height: 100% !important;
@@ -32,7 +33,7 @@
 }
 .fc-player__slide {
   cursor: pointer !important;
-  width: calc(100% - 170px) !important;
+  width: calc(100% - 175px) !important;
   margin-left: 10px !important;
   z-index:10 !important;
 }
@@ -48,7 +49,7 @@
   left: 10px !important;
   background: #ccc !important;
   z-index: 1 !important;
-  top: 19px !important;
+  top: 21px !important;
 }
 
 .fc-player__played{
@@ -57,7 +58,14 @@
   left: 10px !important;
   background: #4285F4 !important;
   z-index: 2 !important;
-  top: 19px !important;
+  top: 21px !important;
+}
+
+@-moz-document url-prefix() {
+  .fc-player__buffered,
+  .fc-player__played{
+    display: none
+  }
 }
 
 .fc-player input[type=range] {
@@ -112,7 +120,7 @@
   border-radius: 5px !important;
   background: #4285F4 !important;
   cursor: pointer !important;
-  z-index:10 !important;
+  z-index: 100 !important;
 }
 .fc-player input[type=range]::-ms-track {
   width: 100% !important;
@@ -222,7 +230,7 @@
   top: 5px !important;
 }
 .fc-player__volume-slider {
-  width: 100% !important;
+  width: 90% !important;
   height: 90% !important;
 }
 .fc-player__speed {
