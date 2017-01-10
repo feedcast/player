@@ -1,168 +1,160 @@
-body, html{
-  margin: 0px;
-  padding: 0px;
-}
-.box{
-  margin-top: 100px;
-  margin-left: 30px;
-  height: 200px;
-  width: 400px;
-}
 .feedcast-player{
-  background-color: #132538;
-  height: 100%
+  background-color: #132538 !important;
+  height: 100% !important;
 }
 .fc-player{
-  position: relative;
+  position: relative !important;
 }
 .fc-player,
 .fc-player__wrapper,
 .fc-player__time-range,
 .fc-player__controls {
-  width: 100%;
+  width: 100% !important;
 }
 .fc-player__controls {
-  height: auto;
-  box-sizing: border-box;
-  display: inline-block;
-  padding: 10px;
+  height: auto !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  padding: 10px !important;
 }
 .fc-player__time-range{
-  display: inline-block;
-  background-color: #2C3E50
+  display: inline-block !important;
+  background-color: #2C3E50 !important;
 }
-.fc-player__time-range > * {
-  display: inline-block;
-  height: 40px;
-  line-height: 3.5em;
-  float: left;
-  font-size: 13px;
+.fc-player__time-range > .fc-player__time,
+.fc-player__time-range > input
+{
+  display: inline-block !important;
+  height: 40px !important;
+  line-height: 3.5em !important;
+  float: left !important;
+  font-size: 13px !important;
 }
 .fc-player__slide {
-  cursor: pointer;
-  width: calc(100% - 170px);
-  margin-left: 10px;
-  z-index:10;
+  cursor: pointer !important;
+  width: calc(100% - 170px) !important;
+  margin-left: 10px !important;
+  z-index:10 !important;
 }
 .fc-player__time {
-  width: 150px;
-  text-align: center;
-  color: white;
+  width: 150px !important;
+  text-align: center !important;
+  color: white !important;
 }
 
 .fc-player__buffered{
-  height: 2px;
-  position: absolute;
-  left: 10px;
-  background: #ccc;
-  z-index: 1;
-  top: 21px;
+  height: 2px !important;
+  position: absolute !important;
+  left: 10px !important;
+  background: #ccc !important;
+  z-index: 1 !important;
+  top: 19px !important;
 }
 
 .fc-player__played{
-  height: 2px;
-  position: absolute;
-  left: 10px;
-  background: #4285F4;
-  z-index: 2;
-  top: 21px;
+  height: 2px !important;
+  position: absolute !important;
+  left: 10px !important;
+  background: #4285F4 !important;
+  z-index: 2 !important;
+  top: 19px !important;
 }
 
 .fc-player input[type=range] {
-  -webkit-appearance: none;
-  background: none
+  -webkit-appearance: none !important;
+  background: none !important;
 }
 .fc-player input[type=range]:focus {
-  outline: none;
+  outline: none !important;
 }
 .fc-player input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px rgba(0,0,0,0);
-  background: rgba(255,255,255,.4);
-  border-radius: 1px;
-  border: 0px;
-  z-index:10;
+  width: 100% !important;
+  height: 2px !important;
+  cursor: pointer !important;
+  animate: 0.2s !important;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0) !important;
+  background: rgba(255,255,255,.4) !important;
+  border-radius: 1px !important;
+  border: 0px !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-webkit-slider-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #4285F4;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #4285F4;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -4.5px;
-  z-index:10;
+  box-shadow: 0px 0px 0px #000000 !important;
+  border: 1px solid #4285F4 !important;
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 5px !important;
+  background: #4285F4 !important;
+  cursor: pointer !important;
+  -webkit-appearance: none !important;
+  margin-top: -4.5px !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]:focus::-webkit-slider-runnable-track {
-  background: rgba(255,255,255,.4);
+  background: rgba(255,255,255,.4) !important;
 }
 .fc-player input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px #000000;
-  background: rgba(255,255,255,.4);
-  border-radius: 1px;
-  border: 0px solid #000000;
-  z-index:10;
+  width: 100% !important;
+  height: 2px !important;
+  cursor: pointer !important;
+  animate: 0.2s !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+  background: rgba(255,255,255,.4) !important;
+  border-radius: 1px !important;
+  border: 0px solid #000000 !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-moz-range-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #4285F4;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #4285F4;
-  cursor: pointer;
-  z-index:10;
+  box-shadow: 0px 0px 0px #000000 !important;
+  border: 1px solid #4285F4 !important;
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 5px !important;
+  background: #4285F4 !important;
+  cursor: pointer !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-ms-track {
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-  z-index:10;
+  width: 100% !important;
+  height: 2px !important;
+  cursor: pointer !important;
+  animate: 0.2s !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  color: transparent !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-ms-fill-lower {
-  background: #E6DFDF;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-  z-index:10;
+  background: #E6DFDF !important;
+  border: 0px solid #000000 !important;
+  border-radius: 2px !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-ms-fill-upper {
-  background: #E6DFDF;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-  z-index:10;
+  background: #E6DFDF !important;
+  border: 0px solid #000000 !important;
+  border-radius: 2px !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]::-ms-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #4285F4;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #4285F4;
-  cursor: pointer;
-  z-index:10;
+  box-shadow: 0px 0px 0px #000000 !important;
+  border: 1px solid #4285F4 !important;
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 5px !important;
+  background: #4285F4 !important;
+  cursor: pointer !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]:focus::-ms-fill-lower {
-  background: #E6DFDF;
-  z-index:10;
+  background: #E6DFDF !important;
+  z-index:10 !important;
 }
 .fc-player input[type=range]:focus::-ms-fill-upper {
-  background: #E6DFDF;
-  z-index:10;
+  background: #E6DFDF !important;
+  z-index:10 !important;
 }
 
 .fc-player__button-play,
@@ -172,79 +164,81 @@ body, html{
 .fc-player__speed button,
 .fc-player__speed a
 {
-  background: #2C3E50;
-  color: white;
-  cursor: pointer;
-  margin: 5px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  outline: 0px;
-  border: 0px;
+  background: #2C3E50 !important;
+  color: white !important;
+  cursor: pointer !important;
+  margin: 5px !important;
+  width: 45px !important;
+  height: 45px !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  outline: 0px !important;
+  border: 0px !important;
 }
 .fc-player__backward,
 .fc-player__forward{
-  width: 35px;
-  height: 35px;
+  width: 35px !important;
+  height: 35px !important;
 }
 .fc-player__tooltip{
-  position: absolute;
-  top: -15px;
-  width: 50px;
-  height: 25px;
-  line-height: 25px;
-  text-align: center;
-  color: white;
-  background: #000;
-  transform: translateX(-16px);
+  position: absolute !important;
+  top: -15px !important;
+  width: 50px !important;
+  height: 25px !important;
+  line-height: 25px !important;
+  text-align: center !important;
+  color: white !important;
+  background: #000 !important;
+  transform: translateX(-16px) !important;
+  display: none
 }
 .fc-player__tooltip:after{
-  content: ' ';
-  position: absolute;
-  bottom: -10px;
-  width: 1px;
-  height: 1px;
-  border: 5px solid transparent;
-  border-top: 5px solid black;
-  left: 50%;
-  transform: translateX(-50%);
+  content: ' ' !important;
+  position: absolute !important;
+  bottom: -10px !important;
+  width: 1px !important;
+  height: 1px !important;
+  border: 5px solid transparent !important;
+  border-top: 5px solid black !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
 .fc-player__volume {
-  color: white;
-  width: 80px;
-  padding-left: 26px;
-  padding-right: 10px;
-  position: relative;
-  float: right;
-  height: 28px;
-  background: #2C3E50;
-  margin-top: 14px;
-  border-radius: 5px;
+  color: white !important;
+  width: 80px !important;
+  padding-left: 26px !important;
+  padding-right: 10px !important;
+  position: relative !important;
+  float: right !important;
+  height: 28px !important;
+  background: #2C3E50 !important;
+  margin-top: 14px !important;
+  border-radius: 5px !important;
 }
 .fc-player__volume i {
-  position: absolute;
-  left: 9px;
-  top: 5px;
+  position: absolute !important;
+  left: 9px !important;
+  top: 5px !important;
 }
 .fc-player__volume-slider {
-  width: 100%
+  width: 100% !important;
+  height: 90% !important;
 }
 .fc-player__speed {
-  float: right;
-  margin: 7px 20px;
+  float: right !important;
+  margin: 7px 20px !important;
 }
 .fc-player__speed button,
 .fc-player__speed a {
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  line-height: 30px;
-  text-align: center;
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-block !important;
+  line-height: 30px !important;
+  text-align: center !important;
 }
 .fc-player__speed button.active {
-  background: rgba(255,255,255,.6);
-  color: #2C3E50;
-  font-weight: bolder
+  background: rgba(255,255,255,.6) !important;
+  color: #2C3E50 !important;
+  font-weight: bolder !important;
 }

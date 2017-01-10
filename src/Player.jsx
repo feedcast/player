@@ -117,7 +117,7 @@ class Player extends Component {
   render() {
     const styleBuffer = {  width: `calc( calc(100% - 170px) * ${this.state.buffer / 100})` }
     const stylePlayed = {  width: `calc( calc(100% - 170px) * ${this.state.percent / 100})` }
-    const styleTooltip = {  display: this.state.hideTime ? 'none' : 'block', left: `${this.state.timeTooltip}px`}
+    const styleTooltip = {  display: (this.state.hideTime) ? 'none' : 'block', left: `${this.state.timeTooltip}px`}
     const isPlay = !this.state.firstPlay || !this.state.playing;
 
     return (
