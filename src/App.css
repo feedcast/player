@@ -1,6 +1,6 @@
 .fc-player a,.fc-player abbr,.fc-player acronym,.fc-player address,.fc-player applet,.fc-player article,.fc-player aside,.fc-player audio,.fc-player b,.fc-player big,.fc-player blockquote,.fc-player body,.fc-player canvas,.fc-player caption,.fc-player center,.fc-player cite,.fc-player code,.fc-player dd,.fc-player del,.fc-player details,.fc-player dfn,.fc-player div,.fc-player dl,.fc-player dt,.fc-player em,.fc-player embed,.fc-player fieldset,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player form,.fc-player h1,.fc-player h2,.fc-player h3,.fc-player h4,.fc-player h5,.fc-player h6,.fc-player header,.fc-player hgroup,.fc-player html,.fc-player iframe,.fc-player img,.fc-player ins,.fc-player kbd,.fc-player label,.fc-player legend,.fc-player li,.fc-player mark,.fc-player menu,.fc-player nav,.fc-player object,.fc-player ol,.fc-player output,.fc-player p,.fc-player pre,.fc-player q,.fc-player ruby,.fc-player s,.fc-player samp,.fc-player section,.fc-player small,.fc-player span,.fc-player strike,.fc-player strong,.fc-player sub,.fc-player summary,.fc-player sup,.fc-player table,.fc-player tbody,.fc-player td,.fc-player tfoot,.fc-player th,.fc-player thead,.fc-player time,.fc-player tr,.fc-player tt,.fc-player u,.fc-player ul,.fc-player var,.fc-player video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}.fc-player article,.fc-player aside,.fc-player details,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player header,.fc-player hgroup,.fc-player menu,.fc-player nav,.fc-player section{display:block}.fc-player body{line-height:1}.fc-player ol,.fc-player ul{list-style:none}.fc-player blockquote,.fc-player q{quotes:none}.fc-player blockquote:after,.fc-player blockquote:before,.fc-player q:after,.fc-player q:before{content:'';content:none}.fc-player table{border-collapse:collapse;border-spacing:0}
 .feedcast-player{
-  background-color: #132538 !important;
+  background-color: #fafafa !important;
   height: 100% !important;
 }
 .fc-player{
@@ -20,7 +20,7 @@
 }
 .fc-player__time-range{
   display: inline-block !important;
-  background-color: #2C3E50 !important;
+  background-color: #f0f0f0 !important;
 }
 .fc-player__time-range > .fc-player__time,
 .fc-player__time-range > input
@@ -40,7 +40,7 @@
 .fc-player__time {
   width: 150px !important;
   text-align: center !important;
-  color: white !important;
+  color: #222 !important;
 }
 
 .fc-player__buffered{
@@ -81,7 +81,7 @@
   cursor: pointer !important;
   animate: 0.2s !important;
   box-shadow: 0px 0px 0px rgba(0,0,0,0) !important;
-  background: rgba(255,255,255,.4) !important;
+  background: rgba(0,0,0,.1) !important;
   border-radius: 1px !important;
   border: 0px !important;
   z-index:10 !important;
@@ -99,7 +99,7 @@
   z-index:10 !important;
 }
 .fc-player input[type=range]:focus::-webkit-slider-runnable-track {
-  background: rgba(255,255,255,.4) !important;
+  background: rgba(0,0,0,.1) !important;
 }
 .fc-player input[type=range]::-moz-range-track {
   width: 100% !important;
@@ -107,7 +107,7 @@
   cursor: pointer !important;
   animate: 0.2s !important;
   box-shadow: 0px 0px 0px #000000 !important;
-  background: rgba(255,255,255,.4) !important;
+  background: rgba(0,0,0,.1) !important;
   border-radius: 1px !important;
   border: 0px solid #000000 !important;
   z-index:10 !important;
@@ -172,8 +172,8 @@
 .fc-player__speed button,
 .fc-player__speed a
 {
-  background: #2C3E50 !important;
-  color: white !important;
+  background: #f0f0f0 !important;
+  color: #222 !important;
   cursor: pointer !important;
   margin: 5px !important;
   width: 45px !important;
@@ -196,7 +196,7 @@
   height: 25px !important;
   line-height: 25px !important;
   text-align: center !important;
-  color: white !important;
+  color: #222 !important;
   background: #000 !important;
   transform: translateX(-16px) !important;
   display: none
@@ -213,14 +213,14 @@
   transform: translateX(-50%) !important;
 }
 .fc-player__volume {
-  color: white !important;
+  color: #222 !important;
   width: 80px !important;
   padding-left: 26px !important;
   padding-right: 10px !important;
   position: relative !important;
   float: right !important;
   height: 28px !important;
-  background: #2C3E50 !important;
+  background: #f0f0f0 !important;
   margin-top: 14px !important;
   border-radius: 5px !important;
 }
@@ -246,7 +246,7 @@
   text-align: center !important;
 }
 .fc-player__speed button.active {
-  background: rgba(255,255,255,.6) !important;
-  color: #2C3E50 !important;
+  background: rgba(0,0,0,.6) !important;
+  color: #f0f0f0 !important;
   font-weight: bolder !important;
 }
