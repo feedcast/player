@@ -68,14 +68,14 @@ body, html{
   top: 21px;
 }
 
-input[type=range] {
+.fc-player input[type=range] {
   -webkit-appearance: none;
   background: none
 }
-input[type=range]:focus {
+.fc-player input[type=range]:focus {
   outline: none;
 }
-input[type=range]::-webkit-slider-runnable-track {
+.fc-player input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
@@ -86,7 +86,7 @@ input[type=range]::-webkit-slider-runnable-track {
   border: 0px;
   z-index:10;
 }
-input[type=range]::-webkit-slider-thumb {
+.fc-player input[type=range]::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000;
   border: 1px solid #4285F4;
   height: 10px;
@@ -98,10 +98,10 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -4.5px;
   z-index:10;
 }
-input[type=range]:focus::-webkit-slider-runnable-track {
+.fc-player input[type=range]:focus::-webkit-slider-runnable-track {
   background: rgba(255,255,255,.4);
 }
-input[type=range]::-moz-range-track {
+.fc-player input[type=range]::-moz-range-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
@@ -112,7 +112,7 @@ input[type=range]::-moz-range-track {
   border: 0px solid #000000;
   z-index:10;
 }
-input[type=range]::-moz-range-thumb {
+.fc-player input[type=range]::-moz-range-thumb {
   box-shadow: 0px 0px 0px #000000;
   border: 1px solid #4285F4;
   height: 10px;
@@ -122,7 +122,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
   z-index:10;
 }
-input[type=range]::-ms-track {
+.fc-player input[type=range]::-ms-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
@@ -132,21 +132,21 @@ input[type=range]::-ms-track {
   color: transparent;
   z-index:10;
 }
-input[type=range]::-ms-fill-lower {
+.fc-player input[type=range]::-ms-fill-lower {
   background: #E6DFDF;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
   z-index:10;
 }
-input[type=range]::-ms-fill-upper {
+.fc-player input[type=range]::-ms-fill-upper {
   background: #E6DFDF;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
   z-index:10;
 }
-input[type=range]::-ms-thumb {
+.fc-player input[type=range]::-ms-thumb {
   box-shadow: 0px 0px 0px #000000;
   border: 1px solid #4285F4;
   height: 10px;
@@ -156,11 +156,11 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
   z-index:10;
 }
-input[type=range]:focus::-ms-fill-lower {
+.fc-player input[type=range]:focus::-ms-fill-lower {
   background: #E6DFDF;
   z-index:10;
 }
-input[type=range]:focus::-ms-fill-upper {
+.fc-player input[type=range]:focus::-ms-fill-upper {
   background: #E6DFDF;
   z-index:10;
 }
