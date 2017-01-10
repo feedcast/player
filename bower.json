@@ -1,0 +1,24 @@
+{
+  "name": "feedcast-player",
+  "description": "A ReactJs based audio player",
+  "main": "src/index.js",
+  "authors": [
+    "msmedeiros <marvin.medeiros52@gmail.com>"
+  ],
+  "license": "Apache 2.0",
+  "keywords": [
+    "react",
+    "feedcast",
+    "podcast",
+    "player",
+    "audio"
+  ],
+  "homepage": "https://github.com/Feedcast/player",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
