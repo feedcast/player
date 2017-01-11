@@ -1,7 +1,12 @@
-.fc-player a,.fc-player abbr,.fc-player acronym,.fc-player address,.fc-player applet,.fc-player article,.fc-player aside,.fc-player audio,.fc-player b,.fc-player big,.fc-player blockquote,.fc-player body,.fc-player canvas,.fc-player caption,.fc-player center,.fc-player cite,.fc-player code,.fc-player dd,.fc-player del,.fc-player details,.fc-player dfn,.fc-player div,.fc-player dl,.fc-player dt,.fc-player em,.fc-player embed,.fc-player fieldset,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player form,.fc-player h1,.fc-player h2,.fc-player h3,.fc-player h4,.fc-player h5,.fc-player h6,.fc-player header,.fc-player hgroup,.fc-player html,.fc-player iframe,.fc-player img,.fc-player ins,.fc-player kbd,.fc-player label,.fc-player legend,.fc-player li,.fc-player mark,.fc-player menu,.fc-player nav,.fc-player object,.fc-player ol,.fc-player output,.fc-player p,.fc-player pre,.fc-player q,.fc-player ruby,.fc-player s,.fc-player samp,.fc-player section,.fc-player small,.fc-player span,.fc-player strike,.fc-player strong,.fc-player sub,.fc-player summary,.fc-player sup,.fc-player table,.fc-player tbody,.fc-player td,.fc-player tfoot,.fc-player th,.fc-player thead,.fc-player time,.fc-player tr,.fc-player tt,.fc-player u,.fc-player ul,.fc-player var,.fc-player video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}.fc-player article,.fc-player aside,.fc-player details,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player header,.fc-player hgroup,.fc-player menu,.fc-player nav,.fc-player section{display:block}.fc-player body{line-height:1}.fc-player ol,.fc-player ul{list-style:none}.fc-player blockquote,.fc-player q{quotes:none}.fc-player blockquote:after,.fc-player blockquote:before,.fc-player q:after,.fc-player q:before{content:'';content:none}.fc-player table{border-collapse:collapse;border-spacing:0}
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans);.fc-player a,.fc-player abbr,.fc-player acronym,.fc-player address,.fc-player applet,.fc-player article,.fc-player aside,.fc-player audio,.fc-player b,.fc-player big,.fc-player blockquote,.fc-player body,.fc-player canvas,.fc-player caption,.fc-player center,.fc-player cite,.fc-player code,.fc-player dd,.fc-player del,.fc-player details,.fc-player dfn,.fc-player div,.fc-player dl,.fc-player dt,.fc-player em,.fc-player embed,.fc-player fieldset,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player form,.fc-player h1,.fc-player h2,.fc-player h3,.fc-player h4,.fc-player h5,.fc-player h6,.fc-player header,.fc-player hgroup,.fc-player html,.fc-player iframe,.fc-player img,.fc-player ins,.fc-player kbd,.fc-player label,.fc-player legend,.fc-player li,.fc-player mark,.fc-player menu,.fc-player nav,.fc-player object,.fc-player ol,.fc-player output,.fc-player p,.fc-player pre,.fc-player q,.fc-player ruby,.fc-player s,.fc-player samp,.fc-player section,.fc-player small,.fc-player span,.fc-player strike,.fc-player strong,.fc-player sub,.fc-player summary,.fc-player sup,.fc-player table,.fc-player tbody,.fc-player td,.fc-player tfoot,.fc-player th,.fc-player thead,.fc-player time,.fc-player tr,.fc-player tt,.fc-player u,.fc-player ul,.fc-player var,.fc-player video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}.fc-player article,.fc-player aside,.fc-player details,.fc-player figcaption,.fc-player figure,.fc-player footer,.fc-player header,.fc-player hgroup,.fc-player menu,.fc-player nav,.fc-player section{display:block}.fc-player body{line-height:1}.fc-player ol,.fc-player ul{list-style:none}.fc-player blockquote,.fc-player q{quotes:none}.fc-player blockquote:after,.fc-player blockquote:before,.fc-player q:after,.fc-player q:before{content:'';content:none}.fc-player table{border-collapse:collapse;border-spacing:0}
+
 .feedcast-player{
+  font-family: 'Droid Sans', sans-serif !important;
   background-color: #fafafa !important;
   height: 100% !important;
+  border: 1px solid #f0f0f0 !important;
+  box-sizing: border-box !important;
+  min-width: 300px !important;
 }
 .fc-player{
   position: relative !important;
@@ -10,6 +15,7 @@
 .fc-player__wrapper,
 .fc-player__time-range,
 .fc-player__controls {
+  min-width: 300px !important;
   width: 100% !important;
 }
 .fc-player__controls {
@@ -39,6 +45,7 @@
   z-index:10 !important;
 }
 .fc-player__time {
+  font-family: 'Droid Sans', sans-serif !important;
   width: 150px !important;
   text-align: center !important;
   color: #222 !important;
@@ -166,6 +173,12 @@
   z-index:10 !important;
 }
 
+.fc-player__controls-group {
+  width: auto !important;
+  float: left !important;
+  display: inline-block !important;
+}
+
 .fc-player__button-play,
 .fc-player__button-pause,
 .fc-player__backward,
@@ -180,24 +193,40 @@
   width: 45px !important;
   height: 45px !important;
   border-radius: 50% !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
+  box-shadow: 0px 3px 0px -1px #ccc !important;
+  -webkit-box-shadow: 0px 3px 0px -1px #ccc !important;
   outline: 0px !important;
   border: 0px !important;
 }
+
+.fc-player__button-play:hover,
+.fc-player__button-pause:hover,
+.fc-player__backward:hover,
+.fc-player__forward:hover,
+.fc-player__speed button:hover,
+.fc-player__speed a:hover {
+  -webkit-transform: translateY(-2px) !important;
+      -ms-transform: translateY(-2px) !important;
+          transform: translateY(-2px) !important;
+  box-shadow: 0px 9px 2px -5px #ccc !important;
+  -webkit-box-shadow: 0px 9px 2px -5px #ccc !important;
+}
+
 .fc-player__backward,
 .fc-player__forward{
   width: 35px !important;
   height: 35px !important;
 }
 .fc-player__tooltip{
+  font-size: 10px !important;
+  font-family: 'Droid Sans', sans-serif !important;
   position: absolute !important;
   top: -15px !important;
   width: 50px !important;
   height: 25px !important;
   line-height: 25px !important;
   text-align: center !important;
-  color: #222 !important;
+  color: #fff !important;
   background: #000 !important;
   -webkit-transform: translateX(-16px) !important;
       -ms-transform: translateX(-16px) !important;
@@ -228,6 +257,8 @@
   background: #f0f0f0 !important;
   margin-top: 14px !important;
   border-radius: 5px !important;
+  box-shadow: 0px 3px 0px -1px #ccc !important;
+  -webkit-box-shadow: 0px 3px 0px -1px #ccc !important;
 }
 .fc-player__volume i {
   position: absolute !important;
@@ -254,5 +285,19 @@
   background: rgba(0,0,0,.6) !important;
   color: #f0f0f0 !important;
   font-weight: bolder !important;
+}
+
+.fc-player__wrapper--mobile .fc-player__volume
+{
+  display: none !important;
+}
+.fc-player__wrapper--mobile .fc-player__button-play,
+.fc-player__wrapper--mobile .fc-player__button-pause,
+.fc-player__wrapper--mobile .fc-player__backward,
+.fc-player__wrapper--mobile .fc-player__forward{
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 10px !important;
+  margin-top: 12px !important
 }
 /*# sourceMappingURL=feedcast-player.css.map*/

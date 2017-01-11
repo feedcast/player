@@ -9403,13 +9403,28 @@
 	      volume: 100,
 	      speed: 1
 	    };
+	
 	    _this.createSound(_this.props['media-url']);
+	
 	    var interval = setInterval(function () {
 	      if (document.querySelectorAll('.fc-player__time-range') !== null) {
 	        clearInterval(interval);
 	        document.querySelector('.fc-player__time-range').onmousemove = _this.mouseMove.bind(_this);
+	        var wrapper = document.querySelector('.fc-player__wrapper');
+	        if (wrapper.clientWidth < 480) wrapper.className += ' fc-player__wrapper--mobile';
+	        window.onresize = function () {
+	          var wrapper = document.querySelector('.fc-player__wrapper');
+	          if (wrapper.clientWidth < 480) {
+	            if (wrapper.className.indexOf('fc-player__wrapper--mobile') === -1) {
+	              wrapper.className += ' fc-player__wrapper--mobile';
+	            }
+	          } else {
+	            wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'), '');
+	          }
+	        };
 	      }
-	    }, 100);
+	    }, 10);
+	
 	    return _this;
 	  }
 	
@@ -9455,12 +9470,16 @@
 	  }, {
 	    key: 'onProgress',
 	    value: function onProgress(e) {
-	      var audio = this.sound.sound;
-	      var buffer = audio.buffered.end(audio.buffered.length - 1) * 100 / this.sound.sound.duration;
-	      var percent = _buzz2.default.toPercent(this.sound.getTime(), this.sound.getDuration(), 1);
-	      var time = _buzz2.default.toTimer(this.sound.getTime());
+	      try {
+	        var audio = this.sound.sound;
+	        var buffer = audio.buffered.end(audio.buffered.length - 1) * 100 / this.sound.sound.duration;
+	        var percent = _buzz2.default.toPercent(this.sound.getTime(), this.sound.getDuration(), 1);
+	        var time = _buzz2.default.toTimer(this.sound.getTime());
 	
-	      this.setState({ percent: percent, time: time, buffer: buffer });
+	        this.setState({ percent: percent, time: time, buffer: buffer });
+	      } catch (e) {
+	        return false;
+	      }
 	    }
 	  }, {
 	    key: 'playMedia',
@@ -9501,18 +9520,17 @@
 	  }, {
 	    key: 'iconVolume',
 	    value: function iconVolume(volume) {
+	      var classe = void 0;
 	      switch (!0) {
 	        default:
 	        case volume > 50:
-	          return 'fa fa-volume-up';
-	          break;
+	          classe = 'fa fa-volume-up';break;
 	        case volume > 0 && volume <= 50:
-	          return 'fa fa-volume-down';
-	          break;
+	          classe = 'fa fa-volume-down';break;
 	        case volume <= 0:
-	          return 'fa fa-volume-off';
-	          break;
+	          classe = 'fa fa-volume-off';break;
 	      }
+	      return classe;
 	    }
 	  }, {
 	    key: 'render',
@@ -9581,27 +9599,31 @@
 	            'div',
 	            { className: 'fc-player__controls' },
 	            _react2.default.createElement(
-	              'button',
-	              { disabled: !this.state.firstPlay, className: 'fc-player__backward', onClick: function onClick(e) {
-	                  return _this4.sound.setTime(_this4.sound.getTime() - 15 * _this4.state.speed);
-	                } },
-	              _react2.default.createElement('i', { className: 'fa fa-fast-backward' })
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: isPlay ? "fc-player__button-play" : "fc-player__button-pause",
-	                disabled: !this.state.canPlay,
-	                onClick: function onClick(e) {
-	                  isPlay ? _this4.playMedia(e) : _this4.pauseMedia(e);
-	                } },
-	              _react2.default.createElement('i', { className: isPlay ? "fa fa-play" : "fa fa-pause" })
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { disabled: !this.state.firstPlay, className: 'fc-player__forward', onClick: function onClick(e) {
-	                  return _this4.sound.setTime(_this4.sound.getTime() + 15 * _this4.state.speed);
-	                } },
-	              _react2.default.createElement('i', { className: 'fa fa-fast-forward' })
+	              'div',
+	              { className: 'fc-player__controls-group' },
+	              _react2.default.createElement(
+	                'button',
+	                { disabled: !this.state.firstPlay, className: 'fc-player__backward', onClick: function onClick(e) {
+	                    return _this4.sound.setTime(_this4.sound.getTime() - 15 * _this4.state.speed);
+	                  } },
+	                _react2.default.createElement('i', { className: 'fa fa-fast-backward' })
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: isPlay ? "fc-player__button-play" : "fc-player__button-pause",
+	                  disabled: !this.state.canPlay,
+	                  onClick: function onClick(e) {
+	                    isPlay ? _this4.playMedia(e) : _this4.pauseMedia(e);
+	                  } },
+	                _react2.default.createElement('i', { className: isPlay ? "fa fa-play" : "fa fa-pause" })
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { disabled: !this.state.firstPlay, className: 'fc-player__forward', onClick: function onClick(e) {
+	                    return _this4.sound.setTime(_this4.sound.getTime() + 15 * _this4.state.speed);
+	                  } },
+	                _react2.default.createElement('i', { className: 'fa fa-fast-forward' })
+	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',

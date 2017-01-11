@@ -20,13 +20,30 @@ class Player extends Component {
       volume:100,
       speed: 1
     }
+
     this.createSound(this.props['media-url'])
+
     let interval = setInterval(() => {
       if(document.querySelectorAll('.fc-player__time-range') !== null){
         clearInterval(interval);
-          document.querySelector('.fc-player__time-range').onmousemove = this.mouseMove.bind(this)
+        document.querySelector('.fc-player__time-range').onmousemove = this.mouseMove.bind(this)
+        let wrapper = document.querySelector('.fc-player__wrapper');
+        if(wrapper.clientWidth < 480)
+            wrapper.className += ' fc-player__wrapper--mobile';
+        window.onresize = function(){
+          let wrapper = document.querySelector('.fc-player__wrapper');
+        if(wrapper.clientWidth < 480){
+            if(wrapper.className.indexOf('fc-player__wrapper--mobile') === -1){
+              wrapper.className += ' fc-player__wrapper--mobile';
+            }
+          } else {
+              wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'),'');
+          }
+        }
       }
-    }, 100)
+    }, 10);
+
+
   }
 
 
@@ -61,14 +78,18 @@ class Player extends Component {
   }
 
   onProgress(e){
-    let audio = this.sound.sound
-    let buffer = (audio.buffered.end(audio.buffered.length-1) * 100 ) / this.sound.sound.duration;
-    let percent  = buzz.toPercent(
-                    this.sound.getTime(),
-                    this.sound.getDuration(), 1);
-    let time = buzz.toTimer(this.sound.getTime());
+    try{
+      let audio = this.sound.sound
+      let buffer = (audio.buffered.end(audio.buffered.length-1) * 100 ) / this.sound.sound.duration;
+      let percent  = buzz.toPercent(
+                      this.sound.getTime(),
+                      this.sound.getDuration(), 1);
+      let time = buzz.toTimer(this.sound.getTime());
 
-    this.setState({percent, time, buffer})
+      this.setState({percent, time, buffer})
+    } catch(e){
+      return false;
+    }
   }
 
   playMedia(e){
@@ -101,18 +122,17 @@ class Player extends Component {
   }
 
   iconVolume(volume){
+    let classe;
     switch(!0){
       default:
       case volume > 50:
-        return 'fa fa-volume-up';
-      break;
+        classe ='fa fa-volume-up'; break;
       case volume > 0 && volume <= 50:
-        return 'fa fa-volume-down';
-      break;
+        classe ='fa fa-volume-down'; break;
       case volume <= 0:
-        return 'fa fa-volume-off';
-      break;
+        classe ='fa fa-volume-off'; break;
     }
+    return classe;
   }
   render() {
     const styleBuffer = {  width: `calc( calc(100% - 170px) * ${this.state.buffer / 100})` }
@@ -145,17 +165,19 @@ class Player extends Component {
             </div>
           </div>
           <div className="fc-player__controls">
-            <button disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
-              <i className="fa fa-fast-backward"></i>
-            </button>
-            <button className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
-                    disabled={!this.state.canPlay}
-                    onClick={e => { isPlay ? this.playMedia(e) : this.pauseMedia(e)} }>
-              <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
-            </button>
-            <button disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
-              <i className="fa fa-fast-forward"></i>
-            </button>
+            <div className="fc-player__controls-group">
+              <button disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
+                <i className="fa fa-fast-backward"></i>
+              </button>
+              <button className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
+                      disabled={!this.state.canPlay}
+                      onClick={e => { isPlay ? this.playMedia(e) : this.pauseMedia(e)} }>
+                <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
+              </button>
+              <button disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
+                <i className="fa fa-fast-forward"></i>
+              </button>
+            </div>
             <div className="fc-player__speed">
               <button className={ this.state.speed === 1? 'active' : ''} onClick={() => this.setSpeed(1) }>1x</button>
               <button className={ this.state.speed === 2? 'active' : ''} onClick={() => this.setSpeed(2) }>2x</button>
