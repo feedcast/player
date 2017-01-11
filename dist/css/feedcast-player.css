@@ -31,9 +31,10 @@
   float: left !important;
   font-size: 13px !important;
 }
-.fc-player__slide {
+.fc-player input.fc-player__slide {
   cursor: pointer !important;
   width: calc(100% - 175px) !important;
+  margin: 2px !important;
   margin-left: 10px !important;
   z-index:10 !important;
 }
