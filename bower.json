@@ -1,0 +1,29 @@
+{
+  "name": "feedcast-player",
+  "description": "A ReactJs audio player for all browsers",
+  "main": [
+    "dist/css/feedcast-player.min.css",
+    "dist/js/feedcast-player.min;js"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "player",
+    "audio",
+    "react",
+    "feedcast"
+  ],
+  "authors": [
+    "Marvin Medeiros <marvin.medeiros52@gmail.com>"
+  ],
+  "license": "Apache 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": false
+}
