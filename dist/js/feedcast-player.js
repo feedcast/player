@@ -9390,6 +9390,8 @@
 	
 	    _this.state = {
 	      mediaUrl: _this.props['media-url'],
+	      downloadUrl: _this.props['download-url'],
+	      nextEpisode: _this.props['next-episode'],
 	      canPlay: false,
 	      firstPlay: false,
 	      playing: false,
@@ -9466,6 +9468,16 @@
 	      this.sound.bind('progress', function (e) {
 	        return _this2.onProgress(e);
 	      });
+	      this.sound.bind('ended', function (e) {
+	        return _this2.onEnd(e);
+	      });
+	    }
+	  }, {
+	    key: 'onEnd',
+	    value: function onEnd(e) {
+	      if (this.state.nextEpisode.length > 0) {
+	        window.location.href = this.state.nextEpisode;
+	      }
 	    }
 	  }, {
 	    key: 'onProgress',
@@ -9541,6 +9553,12 @@
 	      var stylePlayed = { width: 'calc( calc(100% - 170px) * ' + this.state.percent / 100 + ')' };
 	      var styleTooltip = { display: this.state.hideTime ? 'none' : 'block', left: this.state.timeTooltip + 'px' };
 	      var isPlay = !this.state.firstPlay || !this.state.playing;
+	
+	      var downloadButton = this.state.downloadUrl.length > 0 ? _react2.default.createElement(
+	        'a',
+	        { href: this.state.downloadUrl, download: true, target: '_blank' },
+	        _react2.default.createElement('i', { className: 'fa fa-download' })
+	      ) : '';
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -9642,11 +9660,7 @@
 	                  } },
 	                '2x'
 	              ),
-	              _react2.default.createElement(
-	                'a',
-	                { href: this.state.mediaUrl, download: true },
-	                _react2.default.createElement('i', { className: 'fa fa-download' })
-	              )
+	              downloadButton
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -9690,7 +9704,11 @@
 	window.onload = function () {
 		var fcPlayer = document.querySelector('.feedcast-player');
 	
-		_reactDom2.default.render(_react2.default.createElement(_Player2.default, { 'media-url': fcPlayer.getAttribute('media-url') }), fcPlayer);
+		_reactDom2.default.render(_react2.default.createElement(_Player2.default, {
+			'media-url': fcPlayer.getAttribute('data-media-url') || '',
+			'download-url': fcPlayer.getAttribute('data-download-url') || '',
+			'next-episode': fcPlayer.getAttribute('data-next-episode') || ''
+		}), fcPlayer);
 	};
 
 /***/ },
