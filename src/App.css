@@ -6,7 +6,6 @@
   font-family: 'Droid Sans', sans-serif !important;
   background-color: #fafafa !important;
   height: 100% !important;
-  border: 1px solid #f0f0f0 !important;
   box-sizing: border-box !important;
   min-width: 300px !important;
 }
@@ -28,7 +27,7 @@
 }
 .fc-player__time-range{
   display: inline-block !important;
-  background-color: #f0f0f0 !important;
+  background-color: #fafafa !important;
 }
 .fc-player__time-range > .fc-player__time,
 .fc-player__time-range > input
@@ -188,15 +187,13 @@
 .fc-player__speed button,
 .fc-player__speed a
 {
-  background: #f0f0f0 !important;
+  background: #fafafa !important;
   color: #222 !important;
   cursor: pointer !important;
   margin: 5px !important;
   width: 45px !important;
   height: 45px !important;
   border-radius: 50% !important;
-  box-shadow: 0px 3px 0px -1px #ccc !important;
-  -webkit-box-shadow: 0px 3px 0px -1px #ccc !important;
   outline: 0px !important;
   border: 0px !important;
 }
@@ -207,9 +204,6 @@
 .fc-player__forward:hover,
 .fc-player__speed button:hover,
 .fc-player__speed a:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0px 9px 2px -5px #ccc !important;
-  -webkit-box-shadow: 0px 9px 2px -5px #ccc !important;
 }
 
 .fc-player__backward,
@@ -250,11 +244,9 @@
   position: relative !important;
   float: right !important;
   height: 28px !important;
-  background: #f0f0f0 !important;
+  background: #fafafa !important;
   margin-top: 14px !important;
   border-radius: 5px !important;
-  box-shadow: 0px 3px 0px -1px #ccc !important;
-  -webkit-box-shadow: 0px 3px 0px -1px #ccc !important;
 }
 .fc-player__volume i {
   position: absolute !important;
@@ -279,7 +271,7 @@
 }
 .fc-player__speed button.active {
   background: rgba(0,0,0,.6) !important;
-  color: #f0f0f0 !important;
+  color: #fafafa !important;
   font-weight: bolder !important;
 }
 

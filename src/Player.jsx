@@ -7,6 +7,8 @@ class Player extends Component {
     super(props);
     this.state = {
       mediaUrl : this.props['media-url'],
+      downloadUrl : this.props['download-url'],
+      nextEpisode : this.props['next-episode'],
       canPlay : false,
       firstPlay : false,
       playing: false,
@@ -75,7 +77,15 @@ class Player extends Component {
     })
     this.sound.bind('timeupdate', (e) => this.onProgress(e))
     this.sound.bind('progress', (e) => this.onProgress(e))
+    this.sound.bind('ended', (e) => this.onEnd(e))
   }
+
+  onEnd(e){
+    if(this.state.nextEpisode.length > 0){
+      window.location.href = this.state.nextEpisode
+    }
+  }
+
 
   onProgress(e){
     try{
@@ -140,6 +150,11 @@ class Player extends Component {
     const styleTooltip = {  display: (this.state.hideTime) ? 'none' : 'block', left: `${this.state.timeTooltip}px`}
     const isPlay = !this.state.firstPlay || !this.state.playing;
 
+    const downloadButton = (this.state.downloadUrl.length > 0)?
+      ( <a href={this.state.downloadUrl} download target="_blank">
+          <i className="fa fa-download"></i>
+        </a> ) :  '';
+
     return (
       <div className="fc-player">
         <div className="fc-player__wrapper">
@@ -181,9 +196,7 @@ class Player extends Component {
             <div className="fc-player__speed">
               <button className={ this.state.speed === 1? 'active' : ''} onClick={() => this.setSpeed(1) }>1x</button>
               <button className={ this.state.speed === 2? 'active' : ''} onClick={() => this.setSpeed(2) }>2x</button>
-              <a href={this.state.mediaUrl} download>
-                <i className="fa fa-download"></i>
-              </a>
+              {downloadButton}
             </div>
             <div className="fc-player__volume">
               <i className={this.iconVolume(this.state.volume)}></i>

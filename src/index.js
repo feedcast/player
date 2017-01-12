@@ -6,7 +6,11 @@ window.onload = function(){
 	const fcPlayer = document.querySelector('.feedcast-player')
 
 	ReactDOM.render(
-	  <Player media-url={fcPlayer.getAttribute('media-url')} />,
-	  fcPlayer
+		<Player
+			media-url={fcPlayer.getAttribute('data-media-url') || ''}
+			download-url={fcPlayer.getAttribute('data-download-url') || ''}
+			next-episode={fcPlayer.getAttribute('data-next-episode') || ''}
+		/>,
+		fcPlayer
 	)
 }
