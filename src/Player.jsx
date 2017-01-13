@@ -5,7 +5,17 @@ import buzz from 'buzz'
 class Player extends Component {
   constructor(props) {
     super(props);
+    let autoplay;
+    if(window.feedcastPlayer.readCookie('autoplay') === null ||
+      window.feedcastPlayer.readCookie('autoplay') == false ||
+      typeof window.feedcastPlayer.readCookie('autoplay') === 'undefined'){
+      autoplay = false
+    } else {
+      autoplay = true
+    }
     this.state = {
+      hasAutoplay: autoplay,
+      isMobile: window.feedcastPlayer.mobilecheck(),
       mediaUrl : this.props['media-url'],
       downloadUrl : this.props['download-url'],
       nextEpisode : this.props['next-episode'],
@@ -23,27 +33,29 @@ class Player extends Component {
       speed: 1
     }
 
-    this.createSound(this.props['media-url'])
+    if(!this.state.isMobile){
+      this.createSound(this.props['media-url'])
 
-    let interval = setInterval(() => {
-      if(document.querySelectorAll('.fc-player__time-range') !== null){
-        clearInterval(interval);
-        document.querySelector('.fc-player__time-range').onmousemove = this.mouseMove.bind(this)
-        let wrapper = document.querySelector('.fc-player__wrapper');
-        if(wrapper.clientWidth < 480)
-            wrapper.className += ' fc-player__wrapper--mobile';
-        window.onresize = function(){
+      let interval = setInterval(() => {
+        if(document.querySelectorAll('.fc-player__time-range') !== null){
+          clearInterval(interval);
+          document.querySelector('.fc-player__time-range').onmousemove = this.mouseMove.bind(this)
           let wrapper = document.querySelector('.fc-player__wrapper');
-        if(wrapper.clientWidth < 480){
-            if(wrapper.className.indexOf('fc-player__wrapper--mobile') === -1){
+          if(wrapper.clientWidth < 480)
               wrapper.className += ' fc-player__wrapper--mobile';
+          window.onresize = function(){
+            let wrapper = document.querySelector('.fc-player__wrapper');
+          if(wrapper.clientWidth < 480){
+              if(wrapper.className.indexOf('fc-player__wrapper--mobile') === -1){
+                wrapper.className += ' fc-player__wrapper--mobile';
+              }
+            } else {
+                wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'),'');
             }
-          } else {
-              wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'),'');
           }
         }
-      }
-    }, 10);
+      }, 10);
+    }
 
 
   }
@@ -69,7 +81,8 @@ class Player extends Component {
 
   createSound(url){
     this.sound = new buzz.sound(url, {
-      preload: true
+      preload: true,
+      autoplay: this.state.hasAutoplay
     });
 
     this.sound.bind('canplay', (e) => {
@@ -78,10 +91,13 @@ class Player extends Component {
     this.sound.bind('timeupdate', (e) => this.onProgress(e))
     this.sound.bind('progress', (e) => this.onProgress(e))
     this.sound.bind('ended', (e) => this.onEnd(e))
+    this.sound.bind('pause', (e) => this.pauseMedia(e, true))
+    this.sound.bind('play', (e) => this.playMedia(e, true))
   }
 
   onEnd(e){
-    if(this.state.nextEpisode.length > 0){
+    this.pauseMedia()
+    if(this.state.nextEpisode.length > 0 && this.state.hasAutoplay){
       window.location.href = this.state.nextEpisode
     }
   }
@@ -102,13 +118,19 @@ class Player extends Component {
     }
   }
 
-  playMedia(e){
-    this.sound.play();
+  playMedia(e, silent){
+    if(silent === false ||
+      typeof silent === "undefined"){
+      this.sound.play();
+    }
     this.setState({ playing: true, firstPlay: true })
   }
 
-  pauseMedia(e){
-    this.sound.pause();
+  pauseMedia(e, silent){
+    if(silent === false ||
+      typeof silent === "undefined"){
+      this.sound.pause();
+    }
     this.setState({ playing: false })
   }
 
@@ -131,6 +153,15 @@ class Player extends Component {
     this.sound.setVolume(volume)
   }
 
+  toggleAutoplay(e){
+    if(!this.state.hasAutoplay){
+      window.feedcastPlayer.createCookie('autoplay','true',7);
+    } else {
+      window.feedcastPlayer.eraseCookie('autoplay');
+    }
+    this.setState({hasAutoplay: !this.state.hasAutoplay})
+  }
+
   iconVolume(volume){
     let classe;
     switch(!0){
@@ -145,8 +176,8 @@ class Player extends Component {
     return classe;
   }
   render() {
-    const styleBuffer = {  width: `calc( calc(100% - 170px) * ${this.state.buffer / 100})` }
-    const stylePlayed = {  width: `calc( calc(100% - 170px) * ${this.state.percent / 100})` }
+    const styleBuffer = {  width: `calc( calc(100% - 176px) * ${this.state.buffer / 100})` }
+    const stylePlayed = {  width: `calc( calc(100% - 176px) * ${this.state.percent / 100})` }
     const styleTooltip = {  display: (this.state.hideTime) ? 'none' : 'block', left: `${this.state.timeTooltip}px`}
     const isPlay = !this.state.firstPlay || !this.state.playing;
 
@@ -155,8 +186,8 @@ class Player extends Component {
           <i className="fa fa-download"></i>
         </a> ) :  '';
 
-    return (
-      <div className="fc-player">
+    const layout = ! this.state.isMobile ?
+      (
         <div className="fc-player__wrapper">
           <div className="fc-player__time-range">
             <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
@@ -186,12 +217,16 @@ class Player extends Component {
               </button>
               <button className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
                       disabled={!this.state.canPlay}
-                      onClick={e => { isPlay ? this.playMedia(e) : this.pauseMedia(e)} }>
+                      onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
                 <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
               </button>
               <button disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
                 <i className="fa fa-fast-forward"></i>
               </button>
+              <div className="fc-player__autoplay">
+                <input type="checkbox" className="fc-autoplay" checked={this.state.hasAutoplay} onChange={e => this.toggleAutoplay(e)}/>
+                <i></i> Autoplay
+              </div>
             </div>
             <div className="fc-player__speed">
               <button className={ this.state.speed === 1? 'active' : ''} onClick={() => this.setSpeed(1) }>1x</button>
@@ -204,6 +239,17 @@ class Player extends Component {
             </div>
           </div>
         </div>
+      ) : (
+      <div className="fc-player__wrapper">
+        <audio controls>
+          <source src={this.state.mediaUrl} type="audio/mpeg"/>
+        </audio>
+      </div>
+      );
+
+    return (
+      <div className="fc-player">
+        {layout}
       </div>
     );
   }

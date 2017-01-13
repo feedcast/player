@@ -9388,7 +9388,15 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
 	
+	    var autoplay = void 0;
+	    if (window.feedcastPlayer.readCookie('autoplay') === null || window.feedcastPlayer.readCookie('autoplay') == false || typeof window.feedcastPlayer.readCookie('autoplay') === 'undefined') {
+	      autoplay = false;
+	    } else {
+	      autoplay = true;
+	    }
 	    _this.state = {
+	      hasAutoplay: autoplay,
+	      isMobile: window.feedcastPlayer.mobilecheck(),
 	      mediaUrl: _this.props['media-url'],
 	      downloadUrl: _this.props['download-url'],
 	      nextEpisode: _this.props['next-episode'],
@@ -9406,26 +9414,30 @@
 	      speed: 1
 	    };
 	
-	    _this.createSound(_this.props['media-url']);
+	    if (!_this.state.isMobile) {
+	      (function () {
+	        _this.createSound(_this.props['media-url']);
 	
-	    var interval = setInterval(function () {
-	      if (document.querySelectorAll('.fc-player__time-range') !== null) {
-	        clearInterval(interval);
-	        document.querySelector('.fc-player__time-range').onmousemove = _this.mouseMove.bind(_this);
-	        var wrapper = document.querySelector('.fc-player__wrapper');
-	        if (wrapper.clientWidth < 480) wrapper.className += ' fc-player__wrapper--mobile';
-	        window.onresize = function () {
-	          var wrapper = document.querySelector('.fc-player__wrapper');
-	          if (wrapper.clientWidth < 480) {
-	            if (wrapper.className.indexOf('fc-player__wrapper--mobile') === -1) {
-	              wrapper.className += ' fc-player__wrapper--mobile';
-	            }
-	          } else {
-	            wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'), '');
+	        var interval = setInterval(function () {
+	          if (document.querySelectorAll('.fc-player__time-range') !== null) {
+	            clearInterval(interval);
+	            document.querySelector('.fc-player__time-range').onmousemove = _this.mouseMove.bind(_this);
+	            var wrapper = document.querySelector('.fc-player__wrapper');
+	            if (wrapper.clientWidth < 480) wrapper.className += ' fc-player__wrapper--mobile';
+	            window.onresize = function () {
+	              var wrapper = document.querySelector('.fc-player__wrapper');
+	              if (wrapper.clientWidth < 480) {
+	                if (wrapper.className.indexOf('fc-player__wrapper--mobile') === -1) {
+	                  wrapper.className += ' fc-player__wrapper--mobile';
+	                }
+	              } else {
+	                wrapper.className = wrapper.className.replace(new RegExp(' fc-player__wrapper--mobile', 'g'), '');
+	              }
+	            };
 	          }
-	        };
-	      }
-	    }, 10);
+	        }, 10);
+	      })();
+	    }
 	
 	    return _this;
 	  }
@@ -9456,7 +9468,8 @@
 	      var _this2 = this;
 	
 	      this.sound = new _buzz2.default.sound(url, {
-	        preload: true
+	        preload: true,
+	        autoplay: this.state.hasAutoplay
 	      });
 	
 	      this.sound.bind('canplay', function (e) {
@@ -9471,11 +9484,18 @@
 	      this.sound.bind('ended', function (e) {
 	        return _this2.onEnd(e);
 	      });
+	      this.sound.bind('pause', function (e) {
+	        return _this2.pauseMedia(e, true);
+	      });
+	      this.sound.bind('play', function (e) {
+	        return _this2.playMedia(e, true);
+	      });
 	    }
 	  }, {
 	    key: 'onEnd',
 	    value: function onEnd(e) {
-	      if (this.state.nextEpisode.length > 0) {
+	      this.pauseMedia();
+	      if (this.state.nextEpisode.length > 0 && this.state.hasAutoplay) {
 	        window.location.href = this.state.nextEpisode;
 	      }
 	    }
@@ -9495,14 +9515,18 @@
 	    }
 	  }, {
 	    key: 'playMedia',
-	    value: function playMedia(e) {
-	      this.sound.play();
+	    value: function playMedia(e, silent) {
+	      if (silent === false || typeof silent === "undefined") {
+	        this.sound.play();
+	      }
 	      this.setState({ playing: true, firstPlay: true });
 	    }
 	  }, {
 	    key: 'pauseMedia',
-	    value: function pauseMedia(e) {
-	      this.sound.pause();
+	    value: function pauseMedia(e, silent) {
+	      if (silent === false || typeof silent === "undefined") {
+	        this.sound.pause();
+	      }
 	      this.setState({ playing: false });
 	    }
 	  }, {
@@ -9530,6 +9554,16 @@
 	      this.sound.setVolume(volume);
 	    }
 	  }, {
+	    key: 'toggleAutoplay',
+	    value: function toggleAutoplay(e) {
+	      if (!this.state.hasAutoplay) {
+	        window.feedcastPlayer.createCookie('autoplay', 'true', 7);
+	      } else {
+	        window.feedcastPlayer.eraseCookie('autoplay');
+	      }
+	      this.setState({ hasAutoplay: !this.state.hasAutoplay });
+	    }
+	  }, {
 	    key: 'iconVolume',
 	    value: function iconVolume(volume) {
 	      var classe = void 0;
@@ -9549,8 +9583,8 @@
 	    value: function render() {
 	      var _this4 = this;
 	
-	      var styleBuffer = { width: 'calc( calc(100% - 170px) * ' + this.state.buffer / 100 + ')' };
-	      var stylePlayed = { width: 'calc( calc(100% - 170px) * ' + this.state.percent / 100 + ')' };
+	      var styleBuffer = { width: 'calc( calc(100% - 176px) * ' + this.state.buffer / 100 + ')' };
+	      var stylePlayed = { width: 'calc( calc(100% - 176px) * ' + this.state.percent / 100 + ')' };
 	      var styleTooltip = { display: this.state.hideTime ? 'none' : 'block', left: this.state.timeTooltip + 'px' };
 	      var isPlay = !this.state.firstPlay || !this.state.playing;
 	
@@ -9560,118 +9594,137 @@
 	        _react2.default.createElement('i', { className: 'fa fa-download' })
 	      ) : '';
 	
-	      return _react2.default.createElement(
+	      var layout = !this.state.isMobile ? _react2.default.createElement(
 	        'div',
-	        { className: 'fc-player' },
+	        { className: 'fc-player__wrapper' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'fc-player__wrapper' },
+	          { className: 'fc-player__time-range' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'fc-player__time-range' },
+	            { className: 'fc-player__tooltip', style: styleTooltip },
+	            this.state.tooltipText
+	          ),
+	          _react2.default.createElement('div', { className: 'fc-player__buffered', style: styleBuffer }),
+	          _react2.default.createElement('div', { className: 'fc-player__played', style: stylePlayed }),
+	          _react2.default.createElement('input', {
+	            onMouseEnter: function onMouseEnter(e) {
+	              return _this4.showTooltip(e);
+	            },
+	            onMouseLeave: function onMouseLeave(e) {
+	              return _this4.hideTooltip(e);
+	            },
+	            onMouseMove: function onMouseMove(e) {
+	              return _this4.mouseMove(e);
+	            },
+	            disabled: !this.state.firstPlay,
+	            className: 'fc-player__slide',
+	            type: 'range',
+	            min: '0',
+	            max: '100',
+	            step: '0.1',
+	            value: this.state.percent,
+	            onChange: function onChange(e) {
+	              return _this4.changePercent(e);
+	            }
+	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fc-player__time' },
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'fc-player__tooltip', style: styleTooltip },
-	              this.state.tooltipText
+	              'span',
+	              { className: 'fc-player__current-time' },
+	              this.state.time
 	            ),
-	            _react2.default.createElement('div', { className: 'fc-player__buffered', style: styleBuffer }),
-	            _react2.default.createElement('div', { className: 'fc-player__played', style: stylePlayed }),
-	            _react2.default.createElement('input', {
-	              onMouseEnter: function onMouseEnter(e) {
-	                return _this4.showTooltip(e);
-	              },
-	              onMouseLeave: function onMouseLeave(e) {
-	                return _this4.hideTooltip(e);
-	              },
-	              onMouseMove: function onMouseMove(e) {
-	                return _this4.mouseMove(e);
-	              },
-	              disabled: !this.state.firstPlay,
-	              className: 'fc-player__slide',
-	              type: 'range',
-	              min: '0',
-	              max: '100',
-	              step: '0.1',
-	              value: this.state.percent,
-	              onChange: function onChange(e) {
-	                return _this4.changePercent(e);
-	              }
-	            }),
+	            ' / ',
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'fc-player__duration' },
+	              this.state.duration
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'fc-player__controls' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fc-player__controls-group' },
+	            _react2.default.createElement(
+	              'button',
+	              { disabled: !this.state.firstPlay, className: 'fc-player__backward', onClick: function onClick(e) {
+	                  return _this4.sound.setTime(_this4.sound.getTime() - 15 * _this4.state.speed);
+	                } },
+	              _react2.default.createElement('i', { className: 'fa fa-fast-backward' })
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: isPlay ? "fc-player__button-play" : "fc-player__button-pause",
+	                disabled: !this.state.canPlay,
+	                onClick: function onClick(e) {
+	                  return isPlay ? _this4.playMedia(e) : _this4.pauseMedia(e);
+	                } },
+	              _react2.default.createElement('i', { className: isPlay ? "fa fa-play" : "fa fa-pause" })
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { disabled: !this.state.firstPlay, className: 'fc-player__forward', onClick: function onClick(e) {
+	                  return _this4.sound.setTime(_this4.sound.getTime() + 15 * _this4.state.speed);
+	                } },
+	              _react2.default.createElement('i', { className: 'fa fa-fast-forward' })
+	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'fc-player__time' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'fc-player__current-time' },
-	                this.state.time
-	              ),
-	              ' / ',
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'fc-player__duration' },
-	                this.state.duration
-	              )
+	              { className: 'fc-player__autoplay' },
+	              _react2.default.createElement('input', { type: 'checkbox', className: 'fc-autoplay', checked: this.state.hasAutoplay, onChange: function onChange(e) {
+	                  return _this4.toggleAutoplay(e);
+	                } }),
+	              _react2.default.createElement('i', null),
+	              ' Autoplay'
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'fc-player__controls' },
+	            { className: 'fc-player__speed' },
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'fc-player__controls-group' },
-	              _react2.default.createElement(
-	                'button',
-	                { disabled: !this.state.firstPlay, className: 'fc-player__backward', onClick: function onClick(e) {
-	                    return _this4.sound.setTime(_this4.sound.getTime() - 15 * _this4.state.speed);
-	                  } },
-	                _react2.default.createElement('i', { className: 'fa fa-fast-backward' })
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: isPlay ? "fc-player__button-play" : "fc-player__button-pause",
-	                  disabled: !this.state.canPlay,
-	                  onClick: function onClick(e) {
-	                    isPlay ? _this4.playMedia(e) : _this4.pauseMedia(e);
-	                  } },
-	                _react2.default.createElement('i', { className: isPlay ? "fa fa-play" : "fa fa-pause" })
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { disabled: !this.state.firstPlay, className: 'fc-player__forward', onClick: function onClick(e) {
-	                    return _this4.sound.setTime(_this4.sound.getTime() + 15 * _this4.state.speed);
-	                  } },
-	                _react2.default.createElement('i', { className: 'fa fa-fast-forward' })
-	              )
+	              'button',
+	              { className: this.state.speed === 1 ? 'active' : '', onClick: function onClick() {
+	                  return _this4.setSpeed(1);
+	                } },
+	              '1x'
 	            ),
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'fc-player__speed' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: this.state.speed === 1 ? 'active' : '', onClick: function onClick() {
-	                    return _this4.setSpeed(1);
-	                  } },
-	                '1x'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: this.state.speed === 2 ? 'active' : '', onClick: function onClick() {
-	                    return _this4.setSpeed(2);
-	                  } },
-	                '2x'
-	              ),
-	              downloadButton
+	              'button',
+	              { className: this.state.speed === 2 ? 'active' : '', onClick: function onClick() {
+	                  return _this4.setSpeed(2);
+	                } },
+	              '2x'
 	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'fc-player__volume' },
-	              _react2.default.createElement('i', { className: this.iconVolume(this.state.volume) }),
-	              _react2.default.createElement('input', { className: 'fc-player__volume-slider', type: 'range', min: '0', max: '100', step: '1', value: this.state.volume, onChange: function onChange(e) {
-	                  return _this4.setVolume(e.target.value);
-	                } })
-	            )
+	            downloadButton
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fc-player__volume' },
+	            _react2.default.createElement('i', { className: this.iconVolume(this.state.volume) }),
+	            _react2.default.createElement('input', { className: 'fc-player__volume-slider', type: 'range', min: '0', max: '100', step: '1', value: this.state.volume, onChange: function onChange(e) {
+	                return _this4.setVolume(e.target.value);
+	              } })
 	          )
 	        )
+	      ) : _react2.default.createElement(
+	        'div',
+	        { className: 'fc-player__wrapper' },
+	        _react2.default.createElement(
+	          'audio',
+	          { controls: true },
+	          _react2.default.createElement('source', { src: this.state.mediaUrl, type: 'audio/mpeg' })
+	        )
+	      );
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'fc-player' },
+	        layout
 	      );
 	    }
 	  }]);
@@ -9701,14 +9754,48 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	window.onload = function () {
-		var fcPlayer = document.querySelector('.feedcast-player');
+	window.feedcastPlayer = {};
 	
-		_reactDom2.default.render(_react2.default.createElement(_Player2.default, {
-			'media-url': fcPlayer.getAttribute('data-media-url') || '',
-			'download-url': fcPlayer.getAttribute('data-download-url') || '',
-			'next-episode': fcPlayer.getAttribute('data-next-episode') || ''
-		}), fcPlayer);
+	window.feedcastPlayer.mobilecheck = function () {
+	    var check = false;
+	    (function (a) {
+	        if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
+	    })(navigator.userAgent || navigator.vendor || window.opera);
+	    return check;
+	};
+	window.feedcastPlayer.createCookie = function (name, value, days) {
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+	        var expires = "; expires=" + date.toUTCString();
+	    } else var expires = "";
+	    document.cookie = name + "=" + value + expires + "; path=/";
+	};
+	
+	window.feedcastPlayer.readCookie = function (name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for (var i = 0; i < ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) === ' ') {
+	            c = c.substring(1, c.length);
+	        }if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+	    }
+	    return null;
+	};
+	
+	window.feedcastPlayer.eraseCookie = function (name) {
+	    window.feedcastPlayer.createCookie(name, "", -1);
+	};
+	
+	window.onload = function () {
+	    var fcPlayer = document.querySelector('.feedcast-player');
+	
+	    _reactDom2.default.render(_react2.default.createElement(_Player2.default, {
+	        'media-url': fcPlayer.getAttribute('data-media-url') || '',
+	        'download-url': fcPlayer.getAttribute('data-download-url') || '',
+	        'next-episode': fcPlayer.getAttribute('data-next-episode') || ''
+	    }), fcPlayer);
 	};
 
 /***/ },
