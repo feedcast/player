@@ -208,6 +208,9 @@
 
 .fc-player__backward,
 .fc-player__forward{
+  background-color: rgba(0,0,0,.05) !important;
+  color: rgba(0,0,0,.6) !important;
+  font-weight: bolder !important;
   width: 35px !important;
   height: 35px !important;
 }

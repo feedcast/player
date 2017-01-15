@@ -5,16 +5,11 @@ import buzz from 'buzz'
 class Player extends Component {
   constructor(props) {
     super(props);
-    let autoplay;
-    if(window.feedcastPlayer.readCookie('autoplay') === null ||
-      window.feedcastPlayer.readCookie('autoplay') == false ||
-      typeof window.feedcastPlayer.readCookie('autoplay') === 'undefined'){
-      autoplay = false
-    } else {
-      autoplay = true
-    }
+    let hasAutoplay = this.defineAutoplay()
+    let volume = this.defineVolume()
+    let speed = this.defineSpeed()
     this.state = {
-      hasAutoplay: autoplay,
+      hasAutoplay,
       isMobile: window.feedcastPlayer.mobilecheck(),
       mediaUrl : this.props['media-url'],
       downloadUrl : this.props['download-url'],
@@ -29,8 +24,8 @@ class Player extends Component {
       hideTime: true,
       timeTooltip: 0,
       tooltipText: '000:00',
-      volume:100,
-      speed: 1
+      volume,
+      speed
     }
 
     if(!this.state.isMobile){
@@ -60,6 +55,32 @@ class Player extends Component {
 
   }
 
+  defineAutoplay(){
+    if(window.feedcastPlayer.readCookie('feedcast.autoplay') === null ||
+      window.feedcastPlayer.readCookie('feedcast.autoplay') === false ||
+      typeof window.feedcastPlayer.readCookie('feedcast.autoplay') === 'undefined'){
+      return false
+    }
+    return true
+  }
+
+  defineVolume(){
+    if(window.feedcastPlayer.readCookie('feedcast.volume') === null ||
+      window.feedcastPlayer.readCookie('feedcast.volume') === false ||
+      typeof window.feedcastPlayer.readCookie('feedcast.volume') === 'undefined'){
+      return 100
+    }
+    return window.feedcastPlayer.readCookie('feedcast.volume')
+  }
+
+  defineSpeed(){
+    if(window.feedcastPlayer.readCookie('feedcast.speed') === null ||
+      window.feedcastPlayer.readCookie('feedcast.speed') === false ||
+      typeof window.feedcastPlayer.readCookie('feedcast.speed') === 'undefined'){
+      return 1
+    }
+    return parseInt(window.feedcastPlayer.readCookie('feedcast.speed'))
+  }
 
   showTooltip(){
     this.setState({hideTime: false})
@@ -82,11 +103,16 @@ class Player extends Component {
   createSound(url){
     this.sound = new buzz.sound(url, {
       preload: true,
-      autoplay: this.state.hasAutoplay
+      autoplay: this.state.hasAutoplay,
+      volume: this.state.volume
     });
 
     this.sound.bind('canplay', (e) => {
-      this.setState({canPlay: true, duration: buzz.toTimer(this.sound.getDuration())})
+      this.setState({
+        canPlay: true,
+        duration: buzz.toTimer(this.sound.getDuration())
+      });
+      this.sound.setSpeed(this.state.speed)
     })
     this.sound.bind('timeupdate', (e) => this.onProgress(e))
     this.sound.bind('progress', (e) => this.onProgress(e))
@@ -143,21 +169,36 @@ class Player extends Component {
     this.playMedia()
   }
 
-  setSpeed(speed){
-    this.setState({speed})
-    this.sound.setSpeed(speed)
+  changeSpeed(){
+    switch(this.state.speed){
+      case 1:
+      case 2:
+        this.setState({ speed: (this.state.speed + 1) }, ()=>{
+          this.sound.setSpeed(this.state.speed)
+          window.feedcastPlayer.setCookie('feedcast.speed', this.state.speed, 7)
+        })
+      break;
+      default:
+      case 3:
+        this.setState({ speed: 1 }, ()=>{
+          this.sound.setSpeed(this.state.speed)
+          window.feedcastPlayer.setCookie('feedcast.speed', 1, 7)
+        })
+      break;
+    }
   }
 
   setVolume(volume){
     this.setState({volume})
     this.sound.setVolume(volume)
+    window.feedcastPlayer.setCookie('feedcast.volume', volume, 7)
   }
 
   toggleAutoplay(e){
     if(!this.state.hasAutoplay){
-      window.feedcastPlayer.createCookie('autoplay','true',7);
+      window.feedcastPlayer.createCookie('feedcast.autoplay','true',7);
     } else {
-      window.feedcastPlayer.eraseCookie('autoplay');
+      window.feedcastPlayer.eraseCookie('feedcast.autoplay');
     }
     this.setState({hasAutoplay: !this.state.hasAutoplay})
   }
@@ -182,7 +223,7 @@ class Player extends Component {
     const isPlay = !this.state.firstPlay || !this.state.playing;
 
     const downloadButton = (this.state.downloadUrl.length > 0)?
-      ( <a href={this.state.downloadUrl} download target="_blank">
+      ( <a title="Baixar episódio" href={this.state.downloadUrl} download target="_blank">
           <i className="fa fa-download"></i>
         </a> ) :  '';
 
@@ -212,30 +253,27 @@ class Player extends Component {
           </div>
           <div className="fc-player__controls">
             <div className="fc-player__controls-group">
-              <button disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
-                <i className="fa fa-fast-backward"></i>
+              <button title={ "Voltar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
+                -{(15 * this.state.speed)}
               </button>
-              <button className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
+              <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
+                      className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
                       disabled={!this.state.canPlay}
                       onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
                 <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
               </button>
-              <button disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
-                <i className="fa fa-fast-forward"></i>
+              <button title={ "Avançar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
+                +{(15 * this.state.speed)}
               </button>
-              <div className="fc-player__autoplay">
-                <input type="checkbox" className="fc-autoplay" checked={this.state.hasAutoplay} onChange={e => this.toggleAutoplay(e)}/>
-                <i></i> Autoplay
-              </div>
             </div>
             <div className="fc-player__speed">
-              <button className={ this.state.speed === 1? 'active' : ''} onClick={() => this.setSpeed(1) }>1x</button>
-              <button className={ this.state.speed === 2? 'active' : ''} onClick={() => this.setSpeed(2) }>2x</button>
+              <button title="Mudar velocidade" className="active" onClick={() => this.changeSpeed(1) }>{this.state.speed}x</button>
+              <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
               {downloadButton}
             </div>
             <div className="fc-player__volume">
               <i className={this.iconVolume(this.state.volume)}></i>
-              <input className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
+              <input title="Alterar volume" className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
             </div>
           </div>
         </div>
