@@ -234,7 +234,8 @@ class Player extends Component {
       height: this.state.imageUrl.length > 0 ? '300px' : '85px',
       backgroundImage: `url(${this.state.imageUrl})`
     }
-    const headerPodcast = (this.state.imageUrl.length > 0 || this.state.title.length > 0)?
+    const stateHeader = this.state.imageUrl.length > 0 || this.state.title.length > 0
+    const headerPodcast = stateHeader ?
       (<div className="fc-player__header" style={headerStyles}>
         <h1>{this.state.title}</h1>
       </div>) :  '';
@@ -243,7 +244,7 @@ class Player extends Component {
       (
         <div className="fc-player__wrapper">
           {headerPodcast}
-          <div className="fc-player__time-range">
+          <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
             <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
             <div className="fc-player__buffered" style={styleBuffer} ></div>
             <div className="fc-player__played" style={stylePlayed} ></div>
@@ -264,7 +265,7 @@ class Player extends Component {
               <span className="fc-player__current-time">{this.state.time}</span> / <span className="fc-player__duration">{this.state.duration}</span>
             </div>
           </div>
-          <div className="fc-player__controls">
+          <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
             <div className="fc-player__controls-group">
               <button title={ "Voltar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
                 -{(15 * this.state.speed)}
@@ -300,7 +301,7 @@ class Player extends Component {
       );
 
     return (
-      <div className="fc-player">
+      <div className={this.state.imageUrl.length > 0? 'fc-player fc-player--has-cover':'fc-player'}>
         {layout}
       </div>
     );
