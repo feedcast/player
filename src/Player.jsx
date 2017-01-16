@@ -42,7 +42,7 @@ class Player extends Component {
               wrapper.className += ' fc-player__wrapper--mobile';
           window.onresize = function(){
             let wrapper = document.querySelector('.fc-player__wrapper');
-          if(wrapper.clientWidth < 480){
+            if(wrapper.clientWidth < 430){
               if(wrapper.className.indexOf('fc-player__wrapper--mobile') === -1){
                 wrapper.className += ' fc-player__wrapper--mobile';
               }
@@ -234,15 +234,23 @@ class Player extends Component {
       height: this.state.imageUrl.length > 0 ? '300px' : '85px',
       backgroundImage: `url(${this.state.imageUrl})`
     }
+    const coverBgStyles = {
+      backgroundImage: `url(${this.state.imageUrl})`
+    }
     const stateHeader = this.state.imageUrl.length > 0 || this.state.title.length > 0
     const headerPodcast = stateHeader ?
       (<div className="fc-player__header" style={headerStyles}>
         <h1>{this.state.title}</h1>
       </div>) :  '';
+      //fc-player__wrapper--has-cover
+    const coverBg = this.state.imageUrl.length > 0 ?
+      (<div className="fc-player__wrapper--has-cover" style={coverBgStyles}>
+      </div>) :  '';
 
     const layout = ! this.state.isMobile ?
       (
         <div className="fc-player__wrapper">
+          {coverBg}
           {headerPodcast}
           <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
             <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
@@ -294,7 +302,7 @@ class Player extends Component {
       ) : (
       <div className="fc-player__wrapper">
         {headerPodcast}
-        <audio controls>
+        <audio controls className="fc-player__mobile-layout">
           <source src={this.state.mediaUrl} type="audio/mpeg"/>
         </audio>
       </div>

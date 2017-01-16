@@ -9425,7 +9425,7 @@
 	            if (wrapper.clientWidth < 480) wrapper.className += ' fc-player__wrapper--mobile';
 	            window.onresize = function () {
 	              var wrapper = document.querySelector('.fc-player__wrapper');
-	              if (wrapper.clientWidth < 480) {
+	              if (wrapper.clientWidth < 430) {
 	                if (wrapper.className.indexOf('fc-player__wrapper--mobile') === -1) {
 	                  wrapper.className += ' fc-player__wrapper--mobile';
 	                }
@@ -9643,7 +9643,11 @@
 	        height: this.state.imageUrl.length > 0 ? '300px' : '85px',
 	        backgroundImage: 'url(' + this.state.imageUrl + ')'
 	      };
-	      var headerPodcast = this.state.imageUrl.length > 0 || this.state.title.length > 0 ? _react2.default.createElement(
+	      var coverBgStyles = {
+	        backgroundImage: 'url(' + this.state.imageUrl + ')'
+	      };
+	      var stateHeader = this.state.imageUrl.length > 0 || this.state.title.length > 0;
+	      var headerPodcast = stateHeader ? _react2.default.createElement(
 	        'div',
 	        { className: 'fc-player__header', style: headerStyles },
 	        _react2.default.createElement(
@@ -9652,14 +9656,17 @@
 	          this.state.title
 	        )
 	      ) : '';
+	      //fc-player__wrapper--has-cover
+	      var coverBg = this.state.imageUrl.length > 0 ? _react2.default.createElement('div', { className: 'fc-player__wrapper--has-cover', style: coverBgStyles }) : '';
 	
 	      var layout = !this.state.isMobile ? _react2.default.createElement(
 	        'div',
 	        { className: 'fc-player__wrapper' },
+	        coverBg,
 	        headerPodcast,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'fc-player__time-range' },
+	          { className: this.state.imageUrl.length > 0 ? 'fc-player__time-range fc-player__time-range--has-cover' : 'fc-player__time-range' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'fc-player__tooltip', style: styleTooltip },
@@ -9706,7 +9713,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'fc-player__controls' },
+	          { className: this.state.imageUrl.length > 0 ? 'fc-player__controls fc-player__controls--has-cover' : 'fc-player__controls' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'fc-player__controls-group' },
@@ -9772,14 +9779,14 @@
 	        headerPodcast,
 	        _react2.default.createElement(
 	          'audio',
-	          { controls: true },
+	          { controls: true, className: 'fc-player__mobile-layout' },
 	          _react2.default.createElement('source', { src: this.state.mediaUrl, type: 'audio/mpeg' })
 	        )
 	      );
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'fc-player' },
+	        { className: this.state.imageUrl.length > 0 ? 'fc-player fc-player--has-cover' : 'fc-player' },
 	        layout
 	      );
 	    }

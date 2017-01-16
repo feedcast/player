@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Player from './Player';
 
-import './feedcastPlayerHelpers';
+import './helpers/feedcastPlayer';
 
 window.onload = function(){
 	const fcPlayer = document.querySelector('.feedcast-player')
