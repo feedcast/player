@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './Player.css';
 import buzz from 'buzz'
 
 class Player extends Component {
@@ -14,6 +14,8 @@ class Player extends Component {
       mediaUrl : this.props['media-url'],
       downloadUrl : this.props['download-url'],
       nextEpisode : this.props['next-episode'],
+      imageUrl : this.props['image-url'],
+      title : this.props['title'],
       canPlay : false,
       firstPlay : false,
       playing: false,
@@ -227,9 +229,20 @@ class Player extends Component {
           <i className="fa fa-download"></i>
         </a> ) :  '';
 
+
+    const headerStyles = {
+      height: this.state.imageUrl.length > 0 ? '300px' : '85px',
+      backgroundImage: `url(${this.state.imageUrl})`
+    }
+    const headerPodcast = (this.state.imageUrl.length > 0 || this.state.title.length > 0)?
+      (<div className="fc-player__header" style={headerStyles}>
+        <h1>{this.state.title}</h1>
+      </div>) :  '';
+
     const layout = ! this.state.isMobile ?
       (
         <div className="fc-player__wrapper">
+          {headerPodcast}
           <div className="fc-player__time-range">
             <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
             <div className="fc-player__buffered" style={styleBuffer} ></div>
@@ -279,6 +292,7 @@ class Player extends Component {
         </div>
       ) : (
       <div className="fc-player__wrapper">
+        {headerPodcast}
         <audio controls>
           <source src={this.state.mediaUrl} type="audio/mpeg"/>
         </audio>

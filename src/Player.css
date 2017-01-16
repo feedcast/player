@@ -26,6 +26,7 @@
   padding: 10px !important;
 }
 .fc-player__time-range{
+  position: relative !important;
   display: inline-block !important;
   background-color: #fafafa !important;
 }
@@ -324,3 +325,59 @@
 .fc-autoplay:checked + i:before {
   content: "\f046" !important;
 }
+.fc-player__header {
+  position: relative !important;
+  background-size: contain !important;
+  background-color: black !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  width: 100% !important;
+}
+.fc-player__header:before, .fc-player__header:after  {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 85px;
+  background: black; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(black, rgba(0,0,0,0)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(black, rgba(0,0,0,0)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(black, rgba(0,0,0,0)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(black, rgba(0,0,0,0)); /* Standard syntax (must be last) */
+  z-index: 10;
+}
+
+
+.fc-player__header h1 {
+  display: block !important;
+  display: -webkit-box !important;
+  height: 50.4px !important;
+  margin: 5px auto !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  line-height: 1.4 !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  color: white !important;
+  text-align: left !important;
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  width: calc(100% - 50px) !important;
+  z-index: 100;
+
+}
+
+/* Tema preto */
+/*.fc-player__wrapper{
+  background-color: #000
+}
+.fc-player__time-range,
+.fc-player__controls {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}*/
