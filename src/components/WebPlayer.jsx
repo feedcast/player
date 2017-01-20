@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './Player.css';
 import buzz from 'buzz'
+
+import HeaderPodcast from './items/HeaderPodcast'
 
 class Player extends Component {
   constructor(props) {
@@ -229,88 +230,70 @@ class Player extends Component {
           <i className="fa fa-download"></i>
         </a> ) :  '';
 
-
-    const headerStyles = {
-      height: this.state.imageUrl.length > 0 ? '300px' : '85px',
-      backgroundImage: `url(${this.state.imageUrl})`
-    }
     const coverBgStyles = {
       backgroundImage: `url(${this.state.imageUrl})`
     }
-    const stateHeader = this.state.imageUrl.length > 0 || this.state.title.length > 0
-    const headerPodcast = stateHeader ?
-      (<div className="fc-player__header" style={headerStyles}>
-        <h1>{this.state.title}</h1>
-      </div>) :  '';
-      //fc-player__wrapper--has-cover
     const coverBg = this.state.imageUrl.length > 0 ?
       (<div className="fc-player__wrapper--has-cover" style={coverBgStyles}>
       </div>) :  '';
 
-    const layout = ! this.state.isMobile ?
-      (
-        <div className="fc-player__wrapper">
-          {coverBg}
-          {headerPodcast}
-          <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
-            <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
-            <div className="fc-player__buffered" style={styleBuffer} ></div>
-            <div className="fc-player__played" style={stylePlayed} ></div>
-            <input
-              onMouseEnter={e => this.showTooltip(e)}
-              onMouseLeave={e => this.hideTooltip(e)}
-              onMouseMove={e => this.mouseMove(e)}
-              disabled={!this.state.firstPlay}
-              className="fc-player__slide"
-              type="range"
-              min="0"
-              max="100"
-              step="0.1"
-              value={this.state.percent}
-              onChange={e => this.changePercent(e)}
+    return (
+      <div className="fc-player__wrapper">
+        <div className={this.state.imageUrl.length > 0? 'fc-player fc-player--has-cover':'fc-player'}>
+          <div className="fc-player__wrapper">
+            {coverBg}
+            <HeaderPodcast
+              title={this.props['title']}
+              image-url={this.props['image-url']}
             />
-            <div className="fc-player__time">
-              <span className="fc-player__current-time">{this.state.time}</span> / <span className="fc-player__duration">{this.state.duration}</span>
+            <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
+              <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
+              <div className="fc-player__buffered" style={styleBuffer} ></div>
+              <div className="fc-player__played" style={stylePlayed} ></div>
+              <input
+                onMouseEnter={e => this.showTooltip(e)}
+                onMouseLeave={e => this.hideTooltip(e)}
+                onMouseMove={e => this.mouseMove(e)}
+                disabled={!this.state.firstPlay}
+                className="fc-player__slide"
+                type="range"
+                min="0"
+                max="100"
+                step="0.1"
+                value={this.state.percent}
+                onChange={e => this.changePercent(e)}
+              />
+              <div className="fc-player__time">
+                <span className="fc-player__current-time">{this.state.time}</span> / <span className="fc-player__duration">{this.state.duration}</span>
+              </div>
             </div>
-          </div>
-          <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
-            <div className="fc-player__controls-group">
-              <button title={ "Voltar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
-                -{(15 * this.state.speed)}
-              </button>
-              <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
-                      className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
-                      disabled={!this.state.canPlay}
-                      onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
-                <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
-              </button>
-              <button title={ "Avançar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
-                +{(15 * this.state.speed)}
-              </button>
-            </div>
-            <div className="fc-player__speed">
-              <button title="Mudar velocidade" className="active" onClick={() => this.changeSpeed(1) }>{this.state.speed}x</button>
-              <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
-              {downloadButton}
-            </div>
-            <div className="fc-player__volume">
-              <i className={this.iconVolume(this.state.volume)}></i>
-              <input title="Alterar volume" className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
+            <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
+              <div className="fc-player__controls-group">
+                <button title={ "Voltar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
+                  -{(15 * this.state.speed)}
+                </button>
+                <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
+                        className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
+                        disabled={!this.state.canPlay}
+                        onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
+                  <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
+                </button>
+                <button title={ "Avançar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
+                  +{(15 * this.state.speed)}
+                </button>
+              </div>
+              <div className="fc-player__speed">
+                <button title="Mudar velocidade" className="active" onClick={() => this.changeSpeed(1) }>{this.state.speed}x</button>
+                <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
+                {downloadButton}
+              </div>
+              <div className="fc-player__volume">
+                <i className={this.iconVolume(this.state.volume)}></i>
+                <input title="Alterar volume" className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
+              </div>
             </div>
           </div>
         </div>
-      ) : (
-      <div className="fc-player__wrapper">
-        {headerPodcast}
-        <audio controls className="fc-player__mobile-layout">
-          <source src={this.state.mediaUrl} type="audio/mpeg"/>
-        </audio>
-      </div>
-      );
-
-    return (
-      <div className={this.state.imageUrl.length > 0? 'fc-player fc-player--has-cover':'fc-player'}>
-        {layout}
       </div>
     );
   }

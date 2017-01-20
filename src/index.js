@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Player from './Player';
+import App from './App';
 
 import './helpers/feedcastPlayer';
 
@@ -9,7 +9,7 @@ window.onload = function(){
 
     if(fcPlayer){
     	ReactDOM.render(
-    		<Player
+    		<App
     			media-url={fcPlayer.getAttribute('data-media-url') || ''}
     			download-url={fcPlayer.getAttribute('data-download-url') || ''}
                 next-episode={fcPlayer.getAttribute('data-next-episode') || ''}
