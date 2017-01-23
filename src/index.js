@@ -15,6 +15,7 @@ window.onload = function(){
                 next-episode={fcPlayer.getAttribute('data-next-episode') || ''}
                 image-url={fcPlayer.getAttribute('data-image-url') || ''}
     			title={fcPlayer.getAttribute('data-title') || ''}
+                audio-wave={JSON.parse(fcPlayer.getAttribute('data-audio-wave')) || null}
     		/>,
     		fcPlayer
     	)

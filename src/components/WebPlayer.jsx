@@ -243,6 +243,7 @@ class Player extends Component {
           <div className="fc-player__wrapper">
             {coverBg}
             <HeaderPodcast
+              audio-wave={this.props['audio-wave']}
               title={this.props['title']}
               image-url={this.props['image-url']}
             />

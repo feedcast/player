@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CanvasAudioPeaks from './CanvasAudioPeaks'
 
 class HeaderPodcast extends Component {
 	constructor(props){
@@ -17,6 +18,7 @@ class HeaderPodcast extends Component {
     const headerPodcast = stateHeader ?
       (<div className="fc-player__header" style={headerStyles}>
         <h1>{this.props['title']}</h1>
+        <CanvasAudioPeaks audio-wave={this.props['audio-wave']} />
       </div>) :  '';
 
     return ( headerPodcast )

@@ -643,3 +643,12 @@
   position: absolute;
   bottom: 0px;
 }
+
+.fc-player__canvas {
+    bottom: 40px;
+    position: absolute;
+    left: 10px;
+    width: calc(100% - 176px);
+    height: 50px;
+    opacity: 0.8
+}

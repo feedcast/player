@@ -11,6 +11,7 @@ class MobilePlayer extends Component {
     return (
       <div className="fc-player__wrapper">
         <HeaderPodcast
+          audio-wave={this.props['audio-wave']}
           title={this.props['title']}
           image-url={this.props['image-url']}
         />

@@ -1,0 +1,41 @@
+import React, { Component } from 'react';
+
+class CanvasAudioPeaks extends Component {
+
+  componentDidMount() {
+    this.updateCanvas();
+  }
+
+  updateCanvas(){
+    let canvas = this.refs.audiowave
+
+    let ctx = canvas.getContext('2d');
+    let middle = canvas.height / 2
+    let peaks = this.props['audio-wave']
+
+    //Find bigger number in array, this is the 100%
+    let bigger = peaks.slice().sort(function(a, b){ return a - b }).pop()
+
+
+    //Line at the middle of canvas on horizontal
+    // ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    // ctx.fillRect (0, middle, canvas.width, 1);
+
+    for(let i = 0; i < canvas.width; i++){
+      let index = peaks.length > canvas.width? parseInt((i*peaks.length)/canvas.width) : i;
+      let height = (((peaks[index]*100)/bigger)*middle)/100
+      ctx.fillStyle = "rgba(255, 255, 255, 1)";
+      ctx.fillRect (i, ( middle - height), 1, ( height * 2 ) );
+    }
+  }
+
+
+  render(){
+    return (
+      <canvas className="fc-player__canvas" ref="audiowave" width={1366} height={50}/>
+    )
+  }
+
+}
+
+export default CanvasAudioPeaks
