@@ -14,7 +14,8 @@ window.onload = function(){
     			download-url={fcPlayer.getAttribute('data-download-url') || ''}
                 next-episode={fcPlayer.getAttribute('data-next-episode') || ''}
                 image-url={fcPlayer.getAttribute('data-image-url') || ''}
-    			title={fcPlayer.getAttribute('data-title') || ''}
+                title={fcPlayer.getAttribute('data-title') || ''}
+    			audio-wave-color={fcPlayer.getAttribute('data-audio-wave-color') || ''}
                 audio-wave={JSON.parse(fcPlayer.getAttribute('data-audio-wave')) || null}
     		/>,
     		fcPlayer

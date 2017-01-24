@@ -244,6 +244,7 @@ class Player extends Component {
             {coverBg}
             <HeaderPodcast
               audio-wave={this.props['audio-wave']}
+              audio-wave-color={this.props['audio-wave-color']}
               title={this.props['title']}
               image-url={this.props['image-url']}
             />

@@ -18,7 +18,7 @@ class HeaderPodcast extends Component {
     const headerPodcast = stateHeader ?
       (<div className="fc-player__header" style={headerStyles}>
         <h1>{this.props['title']}</h1>
-        <CanvasAudioPeaks audio-wave={this.props['audio-wave']} />
+        <CanvasAudioPeaks audio-wave={this.props['audio-wave']} audio-wave-color={this.props['audio-wave-color']} />
       </div>) :  '';
 
     return ( headerPodcast )

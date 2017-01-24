@@ -20,6 +20,7 @@ class App extends Component {
           download-url={this.props['download-url']}
           next-episode={this.props['next-episode']}
           audio-wave={this.props['audio-wave']}
+          audio-wave-color={this.props['audio-wave-color']}
         />
       </div>
     );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class CanvasAudioPeaks extends Component {
-
   componentDidMount() {
     this.updateCanvas();
   }
@@ -24,16 +23,19 @@ class CanvasAudioPeaks extends Component {
     for(let i = 0; i < canvas.width; i++){
       let index = peaks.length > canvas.width? parseInt((i*peaks.length)/canvas.width) : i;
       let height = (((peaks[index]*100)/bigger)*middle)/100
-      ctx.fillStyle = "rgba(255, 255, 255, 1)";
+      let waveColor = this.props['audio-wave-color'];
+      ctx.fillStyle = (waveColor.length > 0)? waveColor : "#fff";
       ctx.fillRect (i, ( middle - height), 1, ( height * 2 ) );
     }
   }
 
 
   render(){
-    return (
-      <canvas className="fc-player__canvas" ref="audiowave" width={1366} height={50}/>
-    )
+    if(typeof this.props['audio-wave'] === 'object'){
+      return (
+        <canvas className="fc-player__canvas" ref="audiowave" width={1366} height={50}/>
+      )
+    }
   }
 
 }
