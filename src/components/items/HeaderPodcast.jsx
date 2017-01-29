@@ -7,6 +7,14 @@ class HeaderPodcast extends Component {
 	}
 
   render(){
+
+    const coverBgStyles = {
+      backgroundImage: `url(${this.props['image-url']})`
+    }
+    const coverBg = this.props['image-url'].length > 0 ?
+      (<div className="fc-player__wrapper--has-cover" style={coverBgStyles}>
+      </div>) :  '';
+
     const stateHeader = this.props['image-url'].length > 0 ||
                         this.props['title'].length > 0;
 
@@ -21,7 +29,12 @@ class HeaderPodcast extends Component {
         <CanvasAudioPeaks audio-wave={this.props['audio-wave']} audio-wave-color={this.props['audio-wave-color']} />
       </div>) :  '';
 
-    return ( headerPodcast )
+    return (
+      <div>
+        {coverBg}
+        {headerPodcast}
+      </div>
+      )
   }
 
 }

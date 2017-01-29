@@ -58,6 +58,33 @@ class Player extends Component {
 
   }
 
+  getTimeFromUrl(duration){
+    const regExp = new RegExp("time(.+?)(&|$)", "g");
+    const res = window.location.href.match(regExp)
+    if(res !== null && res.length >= 1){
+      let time = parseInt(res[0].split('=')[1]);
+      if(time <= duration){
+        return time
+      }
+    }
+    return 0
+  }
+
+  updateUrlParameter(param, value) {
+      const regExp = new RegExp(param + "(.+?)(&|$)", "g");
+      const newUrl = window.location.href.replace(regExp, param + "=" + parseInt(value) + "$2");
+
+      if(window.location.href.match(regExp) === null){
+        if(window.location.href.indexOf('?') === -1){
+          window.history.replaceState('','', window.location.href + '?time=0')
+        } else {
+          window.history.replaceState('','', window.location.href + '&time=0')
+        }
+      } else {
+        window.history.replaceState("", "", newUrl);
+      }
+  }
+
   defineAutoplay(){
     if(window.feedcastPlayer.readCookie('feedcast.autoplay') === null ||
       window.feedcastPlayer.readCookie('feedcast.autoplay') === false ||
@@ -117,6 +144,7 @@ class Player extends Component {
       });
       this.sound.setSpeed(this.state.speed)
     })
+    //this.updateUrlParameter('time','0')
     this.sound.bind('timeupdate', (e) => this.onProgress(e))
     this.sound.bind('progress', (e) => this.onProgress(e))
     this.sound.bind('ended', (e) => this.onEnd(e))
@@ -140,6 +168,7 @@ class Player extends Component {
                       this.sound.getTime(),
                       this.sound.getDuration(), 1);
       let time = buzz.toTimer(this.sound.getTime());
+      this.updateUrlParameter('time', this.sound.getTime())
 
       this.setState({percent, time, buffer})
     } catch(e){
@@ -148,6 +177,13 @@ class Player extends Component {
   }
 
   playMedia(e, silent){
+    if(!this.state.firstPlay){
+      var timeNow = this.getTimeFromUrl(this.sound.getDuration())
+      var percent = buzz.toPercent(timeNow, this.sound.getDuration(), 2);
+      this.setState({ percent }, () => {
+        this.sound.setPercent(percent)
+      })
+    }
     if(silent === false ||
       typeof silent === "undefined"){
       this.sound.play();
@@ -230,18 +266,10 @@ class Player extends Component {
           <i className="fa fa-download"></i>
         </a> ) :  '';
 
-    const coverBgStyles = {
-      backgroundImage: `url(${this.state.imageUrl})`
-    }
-    const coverBg = this.state.imageUrl.length > 0 ?
-      (<div className="fc-player__wrapper--has-cover" style={coverBgStyles}>
-      </div>) :  '';
-
     return (
       <div className="fc-player__wrapper">
         <div className={this.state.imageUrl.length > 0? 'fc-player fc-player--has-cover':'fc-player'}>
           <div className="fc-player__wrapper">
-            {coverBg}
             <HeaderPodcast
               audio-wave={this.props['audio-wave']}
               audio-wave-color={this.props['audio-wave-color']}

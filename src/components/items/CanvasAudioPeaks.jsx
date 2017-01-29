@@ -31,9 +31,12 @@ class CanvasAudioPeaks extends Component {
 
 
   render(){
+    const fp = window.feedcastPlayer;
+    const canvasClass = "fc-player__canvas";
+
     if(typeof this.props['audio-wave'] === 'object'){
       return (
-        <canvas className="fc-player__canvas" ref="audiowave" width={1366} height={50}/>
+        <canvas className={!fp.mobilecheck()? `${canvasClass}--web ${canvasClass}`:`${canvasClass}--mobile ${canvasClass}`}  ref="audiowave" width={1366} height={50}/>
       )
     }
   }
