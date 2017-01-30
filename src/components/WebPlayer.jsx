@@ -168,7 +168,10 @@ class Player extends Component {
                       this.sound.getTime(),
                       this.sound.getDuration(), 1);
       let time = buzz.toTimer(this.sound.getTime());
-      this.updateUrlParameter('time', this.sound.getTime())
+
+      if(this.state.firstPlay){
+        this.updateUrlParameter('time', this.sound.getTime())
+      }
 
       this.setState({percent, time, buffer})
     } catch(e){
