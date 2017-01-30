@@ -660,3 +660,6 @@
   left: 0px;
   width: 100% !important;
 }
+.fc-player__change-speed {
+  font-size: 10px
+}

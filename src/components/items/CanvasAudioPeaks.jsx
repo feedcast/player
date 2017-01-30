@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 class CanvasAudioPeaks extends Component {
   componentDidMount() {
-    this.updateCanvas();
+    if(typeof this.props['audio-wave'] === 'object'
+      && this.props['audio-wave'] !== null){
+      this.updateCanvas();
+    }
   }
 
   updateCanvas(){
@@ -34,11 +37,9 @@ class CanvasAudioPeaks extends Component {
     const fp = window.feedcastPlayer;
     const canvasClass = "fc-player__canvas";
 
-    if(typeof this.props['audio-wave'] === 'object'){
-      return (
-        <canvas className={!fp.mobilecheck()? `${canvasClass}--web ${canvasClass}`:`${canvasClass}--mobile ${canvasClass}`}  ref="audiowave" width={1366} height={50}/>
-      )
-    }
+    return (
+      <canvas className={!fp.mobilecheck()? `${canvasClass}--web ${canvasClass}`:`${canvasClass}--mobile ${canvasClass}`}  ref="audiowave" width={1366} height={50}/>
+    )
   }
 
 }

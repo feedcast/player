@@ -63,7 +63,7 @@ class Player extends Component {
     const res = window.location.href.match(regExp)
     if(res !== null && res.length >= 1){
       let time = parseInt(res[0].split('=')[1]);
-      if(time <= duration){
+      if(time <= ( duration - 10 ) ){
         return time
       }
     }
@@ -212,16 +212,15 @@ class Player extends Component {
   }
 
   changeSpeed(){
-    switch(this.state.speed){
-      case 1:
-      case 2:
-        this.setState({ speed: (this.state.speed + 1) }, ()=>{
+    switch(true){
+      case this.state.speed >= 1 && this.state.speed < 2:
+        this.setState({ speed: (this.state.speed + .25) }, ()=>{
           this.sound.setSpeed(this.state.speed)
           window.feedcastPlayer.setCookie('feedcast.speed', this.state.speed, 7)
         })
       break;
       default:
-      case 3:
+      case this.state.speed >= 2:
         this.setState({ speed: 1 }, ()=>{
           this.sound.setSpeed(this.state.speed)
           window.feedcastPlayer.setCookie('feedcast.speed', 1, 7)
@@ -302,7 +301,7 @@ class Player extends Component {
             </div>
             <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
               <div className="fc-player__controls-group">
-                <button title={ "Voltar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - (15 * this.state.speed))}>
+                <button title={ "Voltar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - 15)}>
                   -{(15 * this.state.speed)}
                 </button>
                 <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
@@ -311,12 +310,12 @@ class Player extends Component {
                         onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
                   <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
                 </button>
-                <button title={ "Avançar " + (15 * this.state.speed) + " segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + (15 * this.state.speed))}>
+                <button title={ "Avançar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + 15)}>
                   +{(15 * this.state.speed)}
                 </button>
               </div>
               <div className="fc-player__speed">
-                <button title="Mudar velocidade" className="active" onClick={() => this.changeSpeed(1) }>{this.state.speed}x</button>
+                <button title="Mudar velocidade" className="active fc-player__change-speed" onClick={() => this.changeSpeed(1) }>{this.state.speed.toFixed(2)}</button>
                 <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
                 {downloadButton}
               </div>
