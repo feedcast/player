@@ -12,6 +12,7 @@
 }
 .fc-player{
   position: relative !important;
+  height: 100% !important
 }
 .fc-player,
 .fc-player__wrapper,
@@ -343,6 +344,8 @@
   background-repeat: no-repeat !important;
   background-position: center center !important;
   width: 100% !important;
+  min-height: 370px !important;
+  height: 100% !important;
 }
 .fc-player__header:before{
   content: ' ';
@@ -411,7 +414,8 @@
 }
 .fc-player__time-range--has-cover{
   background-color: transparent !important;
-  bottom: 43px
+  bottom: 43px;
+  height: 43px;
 }
 .fc-player__time-range--has-cover .fc-player__time{ color: white !important; }
 .fc-player__controls{
@@ -651,5 +655,56 @@
     width: calc(100% - 176px);
     height: 50px;
     opacity: .9;
+}
+.fc-player__canvas--mobile {
+  left: 0px;
+  width: 100% !important;
+}
+.fc-player__change-speed {
+  font-size: 10px
+}
+
+.fc-player--first-played .fc-player__header *,
+.fc-player--first-played .fc-player__header:before,
+.fc-player--first-played .fc-player__header:after,
+.fc-player--first-played .fc-player__controls,
+.fc-player--first-played .fc-player__time-range
+{
+  -webkit-transition:all .3s ease-in-out !important;
+  transition: all .3s ease-in-out !important;
+  opacity: .3 !important;
+}
+.fc-player--first-played:hover .fc-player__header *,
+.fc-player--first-played:hover .fc-player__header:before,
+.fc-player--first-played:hover .fc-player__header:after,
+.fc-player--first-played:hover .fc-player__controls,
+.fc-player--first-played:hover .fc-player__time-range
+{
+  opacity: 1 !important;
+}
+.fc-player__canvas-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(0,0,0,.9);
+  -webkit-transform: translate(-50%, -80px);
+      -ms-transform: translate(-50%, -80px);
+          transform: translate(-50%, -80px);
+  border-radius: 50%
+}
+.fc-player__button-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(0,0,0,.9);
+  -webkit-transform: translate(-50%, 40px);
+      -ms-transform: translate(-50%, 40px);
+          transform: translate(-50%, 40px);
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
 }
 /*# sourceMappingURL=feedcast-player.css.map*/
