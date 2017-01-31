@@ -663,3 +663,21 @@
 .fc-player__change-speed {
   font-size: 10px
 }
+
+.fc-player--first-played .fc-player__header *,
+.fc-player--first-played .fc-player__header:before,
+.fc-player--first-played .fc-player__header:after,
+.fc-player--first-played .fc-player__controls,
+.fc-player--first-played .fc-player__time-range
+{
+  transition: all .3s ease-in-out !important;
+  opacity: .3 !important;
+}
+.fc-player--first-played:hover .fc-player__header *,
+.fc-player--first-played:hover .fc-player__header:before,
+.fc-player--first-played:hover .fc-player__header:after,
+.fc-player--first-played:hover .fc-player__controls,
+.fc-player--first-played:hover .fc-player__time-range
+{
+  opacity: 1 !important;
+}

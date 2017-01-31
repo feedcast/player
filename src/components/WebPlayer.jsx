@@ -267,63 +267,59 @@ class Player extends Component {
       ( <a title="Baixar episódio" href={this.state.downloadUrl} download target="_blank">
           <i className="fa fa-download"></i>
         </a> ) :  '';
-
+    const wrapperClass = this.state.firstPlay && this.state.playing ? 'fc-player__wrapper fc-player--first-played': 'fc-player__wrapper'
     return (
-      <div className="fc-player__wrapper">
-        <div className={this.state.imageUrl.length > 0? 'fc-player fc-player--has-cover':'fc-player'}>
-          <div className="fc-player__wrapper">
-            <HeaderPodcast
-              audio-wave={this.props['audio-wave']}
-              audio-wave-color={this.props['audio-wave-color']}
-              title={this.props['title']}
-              image-url={this.props['image-url']}
-            />
-            <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
-              <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
-              <div className="fc-player__buffered" style={styleBuffer} ></div>
-              <div className="fc-player__played" style={stylePlayed} ></div>
-              <input
-                onMouseEnter={e => this.showTooltip(e)}
-                onMouseLeave={e => this.hideTooltip(e)}
-                onMouseMove={e => this.mouseMove(e)}
-                disabled={!this.state.firstPlay}
-                className="fc-player__slide"
-                type="range"
-                min="0"
-                max="100"
-                step="0.1"
-                value={this.state.percent}
-                onChange={e => this.changePercent(e)}
-              />
-              <div className="fc-player__time">
-                <span className="fc-player__current-time">{this.state.time}</span> / <span className="fc-player__duration">{this.state.duration}</span>
-              </div>
-            </div>
-            <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
-              <div className="fc-player__controls-group">
-                <button title={ "Voltar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - 15)}>
-                  -{(15 * this.state.speed)}
-                </button>
-                <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
-                        className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
-                        disabled={!this.state.canPlay}
-                        onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
-                  <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
-                </button>
-                <button title={ "Avançar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + 15)}>
-                  +{(15 * this.state.speed)}
-                </button>
-              </div>
-              <div className="fc-player__speed">
-                <button title="Mudar velocidade" className="active fc-player__change-speed" onClick={() => this.changeSpeed(1) }>{this.state.speed.toFixed(2)}</button>
-                <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
-                {downloadButton}
-              </div>
-              <div className="fc-player__volume">
-                <i className={this.iconVolume(this.state.volume)}></i>
-                <input title="Alterar volume" className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
-              </div>
-            </div>
+      <div className={wrapperClass}>
+        <HeaderPodcast
+          audio-wave={this.props['audio-wave']}
+          audio-wave-color={this.props['audio-wave-color']}
+          title={this.props['title']}
+          image-url={this.props['image-url']}
+        />
+        <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
+          <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>
+          <div className="fc-player__buffered" style={styleBuffer} ></div>
+          <div className="fc-player__played" style={stylePlayed} ></div>
+          <input
+            onMouseEnter={e => this.showTooltip(e)}
+            onMouseLeave={e => this.hideTooltip(e)}
+            onMouseMove={e => this.mouseMove(e)}
+            disabled={!this.state.firstPlay}
+            className="fc-player__slide"
+            type="range"
+            min="0"
+            max="100"
+            step="0.1"
+            value={this.state.percent}
+            onChange={e => this.changePercent(e)}
+          />
+          <div className="fc-player__time">
+            <span className="fc-player__current-time">{this.state.time}</span> / <span className="fc-player__duration">{this.state.duration}</span>
+          </div>
+        </div>
+        <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
+          <div className="fc-player__controls-group">
+            <button title={ "Voltar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - 15)}>
+              -{(15 * this.state.speed)}
+            </button>
+            <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
+                    className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
+                    disabled={!this.state.canPlay}
+                    onClick={e => isPlay ?  this.playMedia(e) : this.pauseMedia(e)}>
+              <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
+            </button>
+            <button title={ "Avançar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + 15)}>
+              +{(15 * this.state.speed)}
+            </button>
+          </div>
+          <div className="fc-player__speed">
+            <button title="Mudar velocidade" className="active fc-player__change-speed" onClick={() => this.changeSpeed(1) }>{this.state.speed.toFixed(2)}</button>
+            <button title="Reprodução automática" className={this.state.hasAutoplay? 'active' : ''} onClick={e => this.toggleAutoplay(e)}><i className="fa fa-refresh"></i></button>
+            {downloadButton}
+          </div>
+          <div className="fc-player__volume">
+            <i className={this.iconVolume(this.state.volume)}></i>
+            <input title="Alterar volume" className="fc-player__volume-slider" type="range" min="0" max="100" step="1" value={this.state.volume} onChange={e => this.setVolume(e.target.value)}/>
           </div>
         </div>
       </div>
