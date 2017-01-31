@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import buzz from 'buzz'
 
 import HeaderPodcast from './items/HeaderPodcast'
+import Countdown from './items/Countdown'
 
 class Player extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class Player extends Component {
       percent: 0,
       time: '000:00',
       duration: '000:00',
+      totalSeconds: 0,
+      secondsNow: 0,
       buffer: 0,
       hideTime: true,
       timeTooltip: 0,
@@ -87,8 +90,10 @@ class Player extends Component {
 
   defineAutoplay(){
     if(window.feedcastPlayer.readCookie('feedcast.autoplay') === null ||
-      window.feedcastPlayer.readCookie('feedcast.autoplay') === false ||
       typeof window.feedcastPlayer.readCookie('feedcast.autoplay') === 'undefined'){
+      window.feedcastPlayer.createCookie('feedcast.autoplay','true',7);
+      return true
+    }else if(window.feedcastPlayer.readCookie('feedcast.autoplay') === 'false'){
       return false
     }
     return true
@@ -140,7 +145,8 @@ class Player extends Component {
     this.sound.bind('canplay', (e) => {
       this.setState({
         canPlay: true,
-        duration: buzz.toTimer(this.sound.getDuration())
+        duration: buzz.toTimer(this.sound.getDuration()),
+        totalSeconds: this.sound.getDuration()
       });
       this.sound.setSpeed(this.state.speed)
     })
@@ -168,12 +174,13 @@ class Player extends Component {
                       this.sound.getTime(),
                       this.sound.getDuration(), 1);
       let time = buzz.toTimer(this.sound.getTime());
+      let secondsNow = this.sound.getTime();
 
       if(this.state.firstPlay){
         this.updateUrlParameter('time', this.sound.getTime())
       }
 
-      this.setState({percent, time, buffer})
+      this.setState({percent, time, buffer, secondsNow})
     } catch(e){
       return false;
     }
@@ -240,6 +247,7 @@ class Player extends Component {
       window.feedcastPlayer.createCookie('feedcast.autoplay','true',7);
     } else {
       window.feedcastPlayer.eraseCookie('feedcast.autoplay');
+      window.feedcastPlayer.createCookie('feedcast.autoplay','false',7);
     }
     this.setState({hasAutoplay: !this.state.hasAutoplay})
   }
@@ -275,6 +283,13 @@ class Player extends Component {
           audio-wave-color={this.props['audio-wave-color']}
           title={this.props['title']}
           image-url={this.props['image-url']}
+        />
+        <Countdown
+          cancel={this.toggleAutoplay.bind(this)}
+          autoplay={this.state.nextEpisode.length > 0 && this.state.hasAutoplay}
+          percent={this.state.percent}
+          total-seconds={this.state.totalSeconds}
+          seconds-now={this.state.secondsNow}
         />
         <div className={this.state.imageUrl.length > 0? 'fc-player__time-range fc-player__time-range--has-cover':'fc-player__time-range'}>
           <div className="fc-player__tooltip" style={styleTooltip}>{this.state.tooltipText}</div>

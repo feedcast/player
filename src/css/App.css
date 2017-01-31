@@ -681,3 +681,24 @@
 {
   opacity: 1 !important;
 }
+.fc-player__canvas-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(0,0,0,.9);
+  transform: translate(-50%, -80px);
+  border-radius: 50%
+}
+.fc-player__button-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(0,0,0,.9);
+  transform: translate(-50%, 40px);
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
