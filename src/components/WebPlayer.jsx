@@ -315,7 +315,7 @@ class Player extends Component {
         <div className={this.state.imageUrl.length > 0? 'fc-player__controls fc-player__controls--has-cover':'fc-player__controls'}>
           <div className="fc-player__controls-group">
             <button title={ "Voltar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__backward" onClick={e => this.sound.setTime(this.sound.getTime() - 15)}>
-              -{(15 * this.state.speed)}
+              -15
             </button>
             <button title={ isPlay ? "Tocar episódio" : "Pausar episódio"}
                     className={ isPlay ? "fc-player__button-play" : "fc-player__button-pause"}
@@ -324,7 +324,7 @@ class Player extends Component {
               <i className={ isPlay ? "fa fa-play" : "fa fa-pause"}></i>
             </button>
             <button title={ "Avançar 15 segundos"} disabled={!this.state.firstPlay} className="fc-player__forward" onClick={e => this.sound.setTime(this.sound.getTime() + 15)}>
-              +{(15 * this.state.speed)}
+              +15
             </button>
           </div>
           <div className="fc-player__speed">
