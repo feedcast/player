@@ -9980,8 +9980,7 @@
 	              { title: "Voltar 15 segundos", disabled: !this.state.firstPlay, className: 'fc-player__backward', onClick: function onClick(e) {
 	                  return _this6.sound.setTime(_this6.sound.getTime() - 15);
 	                } },
-	              '-',
-	              15 * this.state.speed
+	              '-15'
 	            ),
 	            _react2.default.createElement(
 	              'button',
@@ -9998,8 +9997,7 @@
 	              { title: "Avançar 15 segundos", disabled: !this.state.firstPlay, className: 'fc-player__forward', onClick: function onClick(e) {
 	                  return _this6.sound.setTime(_this6.sound.getTime() + 15);
 	                } },
-	              '+',
-	              15 * this.state.speed
+	              '+15'
 	            )
 	          ),
 	          _react2.default.createElement(
