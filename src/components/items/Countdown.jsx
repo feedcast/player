@@ -45,6 +45,7 @@ class Countdown extends Component {
       this.props['seconds-now'] > (this.props['total-seconds'] - 10)) {
       return (
         <div>
+          <div className="fc-player__canvas-countdown-background"></div>
           <canvas className="fc-player__canvas-countdown"  ref="countdown" width={104} height={104}/>
           <button className="fc-player__button-countdown" onClick={(e)=> this.props.cancel(e)}>Cancelar</button>
         </div>
